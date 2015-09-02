@@ -503,3 +503,103 @@ nginx                latest              6886fb5a9b8d        6 weeks ago        
 ubuntu               latest              d2a0ecffe6fa        7 weeks ago         188.4 MB
 hello-world          latest    
 
+
+
+docker-project.txt
+Abhi:docker abhinoc$ history | grep git
+   46  git clone git@github.com:abhinoc/docker.git
+   47  cat ~/.ssh/git_rsa.pub 
+   48  git clone git@github.com:abhinoc/docker.git
+   50  git clone git@github.com:abhinoc/docker.git
+   54  git add docker-project.txt 
+   55  git config user.name "Abhishek"
+   69  git config user.name "Abhishek"
+   71  git clone git@github.com:abhinoc/docker.git
+   72  ssh -T git@github.com
+   75  rm -rfv git_rsa*
+   92  ssh -T git@github.com
+   97  git clone git@github.com:abhinoc/docker.git
+  100  git sttaus
+  101  git status
+  103  git add .
+  104  git status
+  105  git commit "My documents"
+  106  git commit -m "My documents"
+  107  git push orgin master
+  108  git push origin master
+  109  git status
+  110  git push origin master
+  111  git status
+  112  git status
+  113  git pull
+  116  git push
+  117  git commit -m "tets"
+  118  git add .
+  119  git commit -m "tets"
+  120  git push
+  438  git clone git@github.com:mpdehaan/puppet-tomcat-demo.git
+  476  git status
+  513  cat docker-project.txt  | grep git
+  515  cd .git/
+  533  git staus
+  534  git status
+  536  history | grep git
+Abhi:docker abhinoc$ 
+
+
+git config --global user.name "YOUR NAME"
+
+Abhi:docker abhinoc$ git config --global user.name "Abhishek Alevoor"
+Abhi:docker abhinoc$ 
+
+git config --global user.email "YOUR EMAIL ADDRESS"
+
+git config --global user.email “abhinoc@gmail.com”
+
+
+
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+ssh-keygen -t rsa -b 4096 -C “abhinoc@gmail.com"
+
+Abhi:docker abhinoc$ ssh-keygen -t rsa -b 4096 -C "abhinoc@gmail.com"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/Users/abhinoc/.ssh/id_rsa): /Users/abhinoc/.ssh/Abhi_rsa
+/Users/abhinoc/.ssh/Abhi_rsa already exists.
+Overwrite (y/n)? y
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /Users/abhinoc/.ssh/Abhi_rsa.
+Your public key has been saved in /Users/abhinoc/.ssh/Abhi_rsa.pub.
+The key fingerprint is:
+f3:08:8b:4f:41:0c:25:97:9a:bd:4b:f6:50:19:8b:f4 abhinoc@gmail.com
+The key's randomart image is:
++--[ RSA 4096]----+
+|    o.o.         |
+|     =o .        |
+|     =oo +       |
+|    o.o E        |
+|      ooS        |
+|     .=+ +       |
+|    .oo+. .      |
+|     o. .        |
+|      .          |
++-----------------+
+
+
+
+
+ssh-add ~/.ssh/id_rsa
+
+Abhi:docker abhinoc$ ssh-add ~/.ssh/Abhi_rsa
+Identity added: /Users/abhinoc/.ssh/Abhi_rsa (/Users/abhinoc/.ssh/Abhi_rsa)
+Abhi:docker abhinoc$ 
+
+
+Abhi:docker abhinoc$ pbcopy < ~/.ssh/Abhi_rsa.pub 
+Abhi:docker abhinoc$ 
+
+Add this key to git hub account
+
+
+
