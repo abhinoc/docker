@@ -1,0 +1,306 @@
+MYOLD NUM:-
++919663365617
+
+The Cloud Scales: AWS Global Reach
+
+6 AWS Regions
+
+US East (Northern Virginia)
+US West (Northern California)
+GovCloud(US) (West Coast)
+Europe (Dublin)
+Asia Pacific (Singapore)
+Asia Pacific (Tokyo)
+
+
+19 AWS CloudFront Locations
+
+Ashburn
+VA/Dallas
+TX/Jacksonville
+FL/Los Angeles
+CA/Miami
+FL/Newark
+NJ/New York
+NY/Palo Alto
+CA/Seattle
+WA/St.Louis
+MO/Amsterdam
+Dublin
+FrankFurt
+London
+Hong Kong
+Paris
+Stockholm
+Tokyo
+Singapore
+
+________
+
+Amazon Global Physical Infrastructure
+
+Geographical Regions AZ - > Availability Zones -> Edge Locations
+
+
+________
+
+INFRASTRUCTURE BUILDING BLOCKS.
+
+
+Amazon Elastic Compute Cloud
+
+* Amazon EC2 = Virtual Machine
+
+* Amazon EC2: On-demand compute power
+  
+  -> Obtain and boot new server instances in minutes
+  -> Quickly scale capacity up or down
+  -> Servers from $0.02 (2 cents) per hour
+  -> On Demand, Reserved, and Sport Pricing
+
+* Key features:
+  
+  -> Support for Windows,Linux,FreeBSD, and OpenSolaris
+  -> Supports all major web and application platforms
+  -> Deploy across Availability Zones for reliability
+  -> CloudFront monitors status and usage
+
+
+
+
+
+
+STORAGE:-
+
+* Amazon S3
+* Amazon EBS
+
+
+
+Amazon Elastic Block Store (EBS)
+
+* You can use Amazon EBS as you would use a hard drive on a physical server.
+
+* Amazon EBS is particularly well-suited for use as the primary storage for a file system, database or for any applications that require fine granular updates and access to raw, unformatted block-level storage.
+
+
+Amazon Simple Storage Service (S3)
+
+* In traditional on-premise applications, this type of data would ordinarily be maintained on SAN or NAS. However, a cloud-based mechanism such as Amazon S3 is far more agile, flexible, and geo-redundant.
+
+* Amazon S3 is a highly scalable, durable and available distributed object store designed for mission-critical and primary data storage with an easy to use web service interface.
+
+
+
+
+
+Network:
+
+* Amazon VPC
+* Elastic LB
+* Amazon Route 53
+
+
+
+DATABASE:-
+
+* Amazon RDS
+* Amazon SimpleDB
+
+
+
+Amazon Relational Database Service (RDS)
+
+* Amazon RDS = MySQL and Oracle 11G Managed Database
+
+* Amazon RDS automates common administrative tasks to reduce the complexity and total cost of ownership. Amazon RDS automatically backs up your database and maintains your database software, allowing you to spend more time on application development.
+
+
+______________
+
+
+
+PLATFORM BUILDING BLOCKS
+
+
+* Parallel Processing
+
+   -> Amazon Elastic Map Reduce
+
+
+* Payments 
+  
+   -> Amazon DevPay 
+   -> Amazon FPS
+
+* Content Delivery
+
+   -> Amazon CloudFront
+
+* Workforce
+
+   -> Amazon Mechanical Turk
+
+* Messaging
+ 
+   -> Amazon SNS
+   -> Amazon SQS
+
+* Email
+
+   -> Amazon SES
+
+
+___________
+
+
+CROSS SERVICE FEATURES
+
+
+* Authentication and Authorization 
+
+   -> AWS IAM, MFA
+
+* Monitoring
+ 
+   -> Amazon Cloudwatch
+
+* Deployment and Automation
+
+   -> AWS Elastic Beanstalk
+   -> AWS CloudFormation
+
+_________________
+
+
+
+TOOLS TO ACCESS SERVICE
+
+* Libraries and SDKz
+  
+    -> .NET/Java etc.
+
+* Web Interface
+
+    -> Management Console
+
+* Tools
+
+    -> AWS Toolkit for Eclipse
+
+* Command Line Interface
+
+
+
+
+
+________________________________________________
+
+
+Case Studies and Use Cases
+
+
+Common Use Cases
+
+* Consumer applications
+
+* High performance computing, batch data processing, and large scale analytics
+
+* Storage, backup and disaster recovery.
+
+* Enterprise and Vertical applications
+
+
+ 
+
+______________________________
+
+CLOUD FORMATION:-
+
+* “Fundamentals of CloudFormation” lab in the Self Paced Lab Lounge
+
+* DMG303 - AWS CloudFormation under the Hood
+
+* ARC203 - How Adobe Deploys: Refreshing the Entire Stack Every Time
+
+* DMG209 - Enterprise Management for the AWS Cloud
+
+* Multiple other sessions are presenting CloudFormation samples.
+
+
+
+What is a template and how do I use it?
+
+Predictable and repeatable deploymnets
+
+* Templates are divided into sections
+
+  -> Resources
+  -> Parameters to customize a stack at creation time
+  -> Mappings to provide conditionals
+  -> Outputs to return important data to the caller
+
+* Resource names are abstracted
+
+* Metadata allows resources to be annotated
+
+* Functions flow resource properties
+   
+
+
+
+___________________
+
+
+What can I include in my template?
+
+* Supports for a broad set of AWS services and resources
+
+
+
+AWS Elastic Beanstalk
+
+AWS CloudFormation
+
+
+AWS CloudFormation Resources -> Wait Condition , Custom Resource, Metadata
+
+Core Services -> Amazon EC2 , Amazon EBS, Amazon S3, Amazon RDS, Elastic Load Balancing, Amazon ElastiCache, Amazon DynamoDB, Auto Scaling, Amazon CloudWatch, Amazon SQS, Amazon SNS, Amazon VPC, Amazon CloudFront
+
+
+______________
+
+
+How do I change my stack?
+
+* Version control your infrastructure
+
+* Update Stack
+
+	-> Update properties of existing resources
+	-> Add resources
+	-> Remove resources
+	-> Update the software running on your instances
+
+
+____________
+
+
+What if I have an application already running?
+
+* CloudFormer
+	-> Appliance that runs in your account
+
+* Create a template from your running resources
+	-> Select the resources
+	-> Customise the names
+	-> Define outputs
+
+* Creates a starting-point template for you to edit
+	-> Add parameters
+	-> Abstract properties and flow properties
+
+
+
+
+
