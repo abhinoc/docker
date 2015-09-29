@@ -35,3 +35,145 @@ Project specific functional testing and production sign-off
 Application Management :-
 
 Provide instant feedback and diagnostics on deployed application to development and operations teams.
+
+
+
+____________________________________________
+
+Local setup
+
+root@host100:/home/abhi# wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
+OK
+
+root@host100:/home/abhi# sudo apt-get update
+0% [Working]
+.
+.
+.
+Hit http://us.archive.ubuntu.com precise-backports/universe Translation-en                                                                                                          
+Fetched 2,855 B in 30s (93 B/s)                                                                                                                                                     
+Reading package lists... Done
+
+root@host100:/home/vagrant# sudo apt-get install jenkins
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following extra packages will be installed:
+  ca-certificates-java daemon default-jre-headless icedtea-6-jre-cacao icedtea-6-jre-jamvm java-common libavahi-client3 libavahi-common-data libavahi-common3 libcups2 liblcms2-2
+  libnspr4 libnss3 libnss3-1d libpcsclite1 openjdk-6-jre-headless openjdk-6-jre-lib tzdata-java
+Suggested packages:
+  default-jre equivs cups-common liblcms2-utils pcscd libnss-mdns sun-java6-fonts ttf-dejavu-extra fonts-ipafont-gothic fonts-ipafont-mincho ttf-wqy-microhei ttf-wqy-zenhei
+  ttf-indic-fonts-core ttf-telugu-fonts ttf-oriya-fonts ttf-kannada-fonts ttf-bengali-fonts
+The following NEW packages will be installed:
+  ca-certificates-java daemon default-jre-headless icedtea-6-jre-cacao icedtea-6-jre-jamvm java-common jenkins libavahi-client3 libavahi-common-data libavahi-common3 libcups2
+  liblcms2-2 libnspr4 libnss3 libnss3-1d libpcsclite1 openjdk-6-jre-headless openjdk-6-jre-lib tzdata-java
+0 upgraded, 19 newly installed, 0 to remove and 2 not upgraded.
+Need to get 108 MB of archives.
+After this operation, 132 MB of additional disk space will be used.
+Do you want to continue [Y/n]? y
+.
+.
+.
+.
+
+root@host100:/home/abhi# /etc/init.d/jenkins status
+Jenkins Continuous Integration Server is not running
+
+root@host100:/home/vagrant# cat /var/log/jenkins/jenkins.log 
+Jenkins requires Java7 or later, but you are running 1.6.0_36-b36 from /usr/lib/jvm/java-6-openjdk-i386/jre
+java.lang.UnsupportedClassVersionError: 50.0
+	at Main.main(Main.java:90)
+Jenkins requires Java7 or later, but you are running 1.6.0_36-b36 from /usr/lib/jvm/java-6-openjdk-i386/jre
+java.lang.UnsupportedClassVersionError: 50.0
+	at Main.main(Main.java:90)
+
+root@host100:/home/vagrant# java -version
+java version "1.6.0_36"
+OpenJDK Runtime Environment (IcedTea6 1.13.8) (6b36-1.13.8-0ubuntu1~12.04)
+OpenJDK Client VM (build 23.25-b01, mixed mode, sharing)
+
+
+root@host100:/home/abhi# sudo apt-get install openjdk-7-jdk
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following extra packages will be installed:
+  consolekit cryptsetup-bin dbus-x11 dconf-gsettings-backend dconf-service fontconfig fontconfig-config gconf-service gconf-service-backend gconf2 gconf2-common gvfs gvfs-common
+  gvfs-daemons gvfs-libs hicolor-icon-theme libasound2 libasyncns0 libatasmart4 libatk-wrapper-java libatk-wrapper-java-jni libatk1.0-0 libatk1.0-data libavahi-glib1 libbonobo2-0
+  libbonobo2-common libcairo-gobject2 libcairo2 libcanberra0 libck-connector0 libcryptsetup4 libdatrie1 libdconf0 libflac8 libfontconfig1 libfontenc1 libgconf-2-4 libgconf2-4
+  libgdk-pixbuf2.0-0 libgdk-pixbuf2.0-common libgdu0 libgif4 libgl1-mesa-dri libgl1-mesa-glx libglapi-mesa libgnome-keyring-common libgnome-keyring0 libgnome2-0 libgnome2-bin
+  libgnome2-common libgnomevfs2-0 libgnomevfs2-common libgtk-3-0 libgtk-3-bin libgtk-3-common libgtk2.0-0 libgtk2.0-bin libgtk2.0-common libgudev-1.0-0 libice-dev libice6
+  libidl-common libidl0 libjasper1 libjson0 libllvm3.0 libltdl7 liblvm2app2.2 libogg0 liborbit2 libpam-ck-connector libpango1.0-0 libpixman-1-0 libpolkit-agent-1-0
+  libpolkit-backend-1-0 libpthread-stubs0 libpthread-stubs0-dev libpulse0 libsgutils2-2 libsm-dev libsm6 libsndfile1 libtdb1 libthai-data libthai0 libtiff4 libvorbis0a
+  libvorbisenc2 libvorbisfile3 libx11-dev libx11-doc libx11-xcb1 libxau-dev libxaw7 libxcb-glx0 libxcb-render0 libxcb-shape0 libxcb-shm0 libxcb1-dev libxcomposite1 libxcursor1
+  libxdamage1 libxdmcp-dev libxfixes3 libxft2 libxi6 libxinerama1 libxmu6 libxpm4 libxrandr2 libxrender1 libxt-dev libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 mtools
+  openjdk-7-jre openjdk-7-jre-headless policykit-1 policykit-1-gnome shared-mime-info sound-theme-freedesktop ttf-dejavu-core ttf-dejavu-extra udisks x11-common x11-utils
+  x11proto-core-dev x11proto-input-dev x11proto-kb-dev xorg-sgml-doctools xtrans-dev
+Suggested packages:
+  gconf-defaults-service gvfs-backends libasound2-plugins libasound2-python libbonobo2-bin libcanberra-gtk0 libcanberra-pulse libglide3 gnome-keyring desktop-base libgnomevfs2-bin
+  libgnomevfs2-extra gamin fam gnome-mime-data librsvg2-common libjasper-runtime ttf-baekmuk ttf-arphic-gbsn00lp ttf-arphic-bsmi00lp ttf-arphic-gkai00mp ttf-arphic-bkai00mp
+  pulseaudio sg3-utils libxcb-doc floppyd openjdk-7-demo openjdk-7-source visualvm icedtea-7-plugin icedtea-7-jre-jamvm libnss-mdns sun-java6-fonts fonts-ipafont-gothic
+  fonts-ipafont-mincho ttf-wqy-microhei ttf-wqy-zenhei ttf-indic-fonts-core ttf-telugu-fonts ttf-oriya-fonts ttf-kannada-fonts ttf-bengali-fonts xfsprogs reiserfsprogs mdadm
+  mesa-utils
+The following NEW packages will be installed:
+  consolekit cryptsetup-bin dbus-x11 dconf-gsettings-backend dconf-service fontconfig fontconfig-config gconf-service gconf-service-backend gconf2 gconf2-common gvfs gvfs-common
+  gvfs-daemons gvfs-libs hicolor-icon-theme libasound2 libasyncns0 libatasmart4 libatk-wrapper-java libatk-wrapper-java-jni libatk1.0-0 libatk1.0-data libavahi-glib1 libbonobo2-0
+  libbonobo2-common libcairo-gobject2 libcairo2 libcanberra0 libck-connector0 libcryptsetup4 libdatrie1 libdconf0 libflac8 libfontconfig1 libfontenc1 libgconf-2-4 libgconf2-4
+  libgdk-pixbuf2.0-0 libgdk-pixbuf2.0-common libgdu0 libgif4 libgl1-mesa-dri libgl1-mesa-glx libglapi-mesa libgnome-keyring-common libgnome-keyring0 libgnome2-0 libgnome2-bin
+  libgnome2-common libgnomevfs2-0 libgnomevfs2-common libgtk-3-0 libgtk-3-bin libgtk-3-common libgtk2.0-0 libgtk2.0-bin libgtk2.0-common libgudev-1.0-0 libice-dev libice6
+  libidl-common libidl0 libjasper1 libjson0 libllvm3.0 libltdl7 liblvm2app2.2 libogg0 liborbit2 libpam-ck-connector libpango1.0-0 libpixman-1-0 libpolkit-agent-1-0
+  libpolkit-backend-1-0 libpthread-stubs0 libpthread-stubs0-dev libpulse0 libsgutils2-2 libsm-dev libsm6 libsndfile1 libtdb1 libthai-data libthai0 libtiff4 libvorbis0a
+  libvorbisenc2 libvorbisfile3 libx11-dev libx11-doc libx11-xcb1 libxau-dev libxaw7 libxcb-glx0 libxcb-render0 libxcb-shape0 libxcb-shm0 libxcb1-dev libxcomposite1 libxcursor1
+  libxdamage1 libxdmcp-dev libxfixes3 libxft2 libxi6 libxinerama1 libxmu6 libxpm4 libxrandr2 libxrender1 libxt-dev libxt6 libxtst6 libxv1 libxxf86dga1 libxxf86vm1 mtools
+  openjdk-7-jdk openjdk-7-jre openjdk-7-jre-headless policykit-1 policykit-1-gnome shared-mime-info sound-theme-freedesktop ttf-dejavu-core ttf-dejavu-extra udisks x11-common
+  x11-utils x11proto-core-dev x11proto-input-dev x11proto-kb-dev xorg-sgml-doctools xtrans-dev
+0 upgraded, 135 newly installed, 0 to remove and 2 not upgraded.
+Need to get 15.9 kB/95.6 MB of archives.
+After this operation, 201 MB of additional disk space will be used.
+Do you want to continue [Y/n]? y
+.
+.
+.
+.
+.
+update-alternatives: using /usr/lib/jvm/java-7-openjdk-i386/bin/xjc to provide /usr/bin/xjc (xjc) in auto mode.
+Setting up libatk-wrapper-java-jni (0.30.4-0ubuntu2) ...
+Processing triggers for libc-bin ...
+ldconfig deferred processing now taking place
+
+root@host100:/home/abhi# java -version
+java version "1.6.0_36"
+OpenJDK Runtime Environment (IcedTea6 1.13.8) (6b36-1.13.8-0ubuntu1~12.04)
+OpenJDK Client VM (build 23.25-b01, mixed mode, sharing)
+
+
+root@host100:/home/abhi# sudo update-alternatives --config java
+There are 2 choices for the alternative java (providing /usr/bin/java).
+
+  Selection    Path                                           Priority   Status
+------------------------------------------------------------
+* 0            /usr/lib/jvm/java-6-openjdk-i386/jre/bin/java   1061      auto mode
+  1            /usr/lib/jvm/java-6-openjdk-i386/jre/bin/java   1061      manual mode
+  2            /usr/lib/jvm/java-7-openjdk-i386/jre/bin/java   1051      manual mode
+
+Press enter to keep the current choice[*], or type selection number: 2
+update-alternatives: using /usr/lib/jvm/java-7-openjdk-i386/jre/bin/java to provide /usr/bin/java (java) in manual mode.
+root@host100:/home/vagrant# java -version
+java version "1.7.0_79"
+OpenJDK Runtime Environment (IcedTea 2.5.6) (7u79-2.5.6-0ubuntu1.12.04.1)
+OpenJDK Client VM (build 24.79-b02, mixed mode, sharing)
+root@host100:/home/vagrant# /etc/init.d/jenkins start
+ * Starting Jenkins Continuous Integration Server jenkins                                                              
+
+
+root@host100:/home/abhi# netstat -ntlp
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN      602/rpcbind     
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      1059/sshd       
+tcp        0      0 0.0.0.0:36423           0.0.0.0:*               LISTEN      757/rpc.statd   
+tcp6       0      0 :::111                  :::*                    LISTEN      602/rpcbind     
+tcp6       0      0 :::8080                 :::*                    LISTEN      9906/java       
+tcp6       0      0 :::37393                :::*                    LISTEN      757/rpc.statd   
+tcp6       0      0 :::22                   :::*                    LISTEN      1059/sshd       
+
