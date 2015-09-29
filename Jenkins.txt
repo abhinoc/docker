@@ -1,0 +1,31 @@
+The Continuous Delivery Blueprint
+
+Version Control:- 
+
+Developers working in branches. Trigger CI when merging into main master branch/trunk
+
+
+Continuous Integration:- 
+
+-> Build :- Pull and organize application artifacts and dependencies
+
+-> Code Quality :- Run unit tests and static code analysis tools to ensure code quality
+
+-> Packaging :- Assemble application arifacts including dependencies and configuration into deployable validated package
+
+
+Infrastrucure Automation:-
+
+Automated provisioning of Infrastructure resource and platforms.
+
+Release Automation :-
+
+Automated application deployment across all runtime environments
+
+Quality Control and Approvals :- 
+
+Project specific functional testing and production sign-off
+
+Application Management :-
+
+Provide instant feedback and diagnostics on deployed application to development and operations teams.
