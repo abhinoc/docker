@@ -177,3 +177,34 @@ tcp6       0      0 :::8080                 :::*                    LISTEN      
 tcp6       0      0 :::37393                :::*                    LISTEN      757/rpc.statd   
 tcp6       0      0 :::22                   :::*                    LISTEN      1059/sshd       
 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+abhi@nagios:~$ sudo apt-get install tomcat7
+sudo: unable to resolve host nagios
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following extra packages will be installed:
+  authbind ca-certificates-java default-jre-headless icedtea-6-jre-cacao icedtea-6-jre-jamvm java-common libavahi-client3 libavahi-common-data libavahi-common3
+  libcommons-collections3-java libcommons-dbcp-java libcommons-pool-java libcups2 libecj-java liblcms2-2 libnspr4 libnss3 libnss3-1d libpcsclite1 libservlet3.0-java
+  libtomcat7-java openjdk-6-jre-headless openjdk-6-jre-lib tomcat7-common tzdata-java
+Suggested packages:
+  default-jre equivs libcommons-collections3-java-doc libgeronimo-jta-1.0.1b-spec-java cups-common ecj ant libecj-java-gcj liblcms2-utils pcscd libnss-mdns sun-java6-fonts
+  ttf-dejavu-extra fonts-ipafont-gothic fonts-ipafont-mincho ttf-wqy-microhei ttf-wqy-zenhei ttf-indic-fonts-core ttf-telugu-fonts ttf-oriya-fonts ttf-kannada-fonts
+  ttf-bengali-fonts tomcat7-docs tomcat7-admin tomcat7-examples tomcat7-user libtcnative-1
+The following NEW packages will be installed:
+  authbind ca-certificates-java default-jre-headless icedtea-6-jre-cacao icedtea-6-jre-jamvm java-common libavahi-client3 libavahi-common-data libavahi-common3
+  libcommons-collections3-java libcommons-dbcp-java libcommons-pool-java libcups2 libecj-java liblcms2-2 libnspr4 libnss3 libnss3-1d libpcsclite1 libservlet3.0-java
+  libtomcat7-java openjdk-6-jre-headless openjdk-6-jre-lib tomcat7 tomcat7-common tzdata-java
+0 upgraded, 26 newly installed, 0 to remove and 2 not upgraded.
+Need to get 50.5 MB of archives.
+After this operation, 76.1 MB of additional disk space will be used.
+Do you want to continue [Y/n]? y
+.
+.
+.
+.
+root@nagios:/var/log/tomcat7# /etc/init.d/tomcat7 restart
+ * Starting Tomcat servlet engine tomcat7 
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
