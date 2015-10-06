@@ -1,0 +1,1575 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1347\cocoasubrtf570
+{\fonttbl\f0\froman\fcharset0 Times-Roman;\f1\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red38\green38\blue38;\red121\green178\blue246;\red1\green30\blue103;
+\red10\green86\blue216;\red26\green148\blue230;\red90\green14\blue18;\red15\green112\blue1;\red36\green0\blue230;
+\red245\green245\blue245;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww12600\viewh10200\viewkind0
+\deftab720
+\pard\pardeftab720
+
+\f0\fs78 \cf2 \expnd0\expndtw0\kerning0
+Django deployment installation to Ubuntu 12.04 server\
+\pard\pardeftab720
+
+\fs38 \cf2 \expnd0\expndtw0\kerning0
+.entry-header\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+Django is a web framework written in Python and as you may guess everything in Django is also done in Python. Django was developed to simplify the creation of database driven sites and principle of it is \'93don\'92t repeat yourself\'94. Best feature in Django is the fact that it propably is the fastest website framework to create a fully functioning website.\
+\
+When I developed a website with Django I stumbled upon one step, and that step was the deployment and publishing of Django driven website. There are a good tutorial about deploying Django on the official website and I followed it. Anyway there are alot of things in that tutorial that are not explained and you just need to know.\
+So here is a full step by step tutorial for deploying Django 1.6 web framework. I have tested this tutorial with Ubuntu 12.04.\
+Requirements for this tutorial\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\parhyphenfactor20
+\ls1\ilvl0\cf2 \kerning1\expnd0\expndtw0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+Linux knowledge\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+Fresh Ubuntu 12.04 installation on a server\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+Root access to that server\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+Domain\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs54 \cf2 \expnd0\expndtw0\kerning0
+Environment\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs38 \cf2 \expnd0\expndtw0\kerning0
+In this tutorial the user we are using is root and we will install Django in /srv/ folder. Of course you may use another user and sudo everything, and install in some other directory, but this tutorial does not scale to that. This Django installation is safe and secure and we are going to create a new system user to run mod_WSGI with Apache. Python will be handled by VirtualEnv.\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs64 \cf2 \expnd0\expndtw0\kerning0
+Django 1.6 deployment on Ubuntu 12.04\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs38 \cf2 \expnd0\expndtw0\kerning0
+So we start of with updating the system.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth11600\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\
+2\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf4 \expnd0\expndtw0\kerning0
+apt\cf5 \expnd0\expndtw0\kerning0
+-\cf2 \expnd0\expndtw0\kerning0
+get update\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+apt\cf5 \expnd0\expndtw0\kerning0
+-\cf2 \expnd0\expndtw0\kerning0
+get \cf4 \expnd0\expndtw0\kerning0
+upgrade\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0004 seconds]\
+\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs54 \cf2 \expnd0\expndtw0\kerning0
+Hostname\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs38 \cf2 \expnd0\expndtw0\kerning0
+Choose here name for your server. Modify SERVERNAME.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth11600\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\
+2\
+3\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf6 \expnd0\expndtw0\kerning0
+echo\cf5 \expnd0\expndtw0\kerning0
+ \cf7 \expnd0\expndtw0\kerning0
+"SERVERNAME"\cf5 \expnd0\expndtw0\kerning0
+ > /\cf4 \expnd0\expndtw0\kerning0
+etc\cf5 \expnd0\expndtw0\kerning0
+/\cf2 \expnd0\expndtw0\kerning0
+hostname\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+hostname\cf5 \expnd0\expndtw0\kerning0
+ -\cf4 \expnd0\expndtw0\kerning0
+F\cf5 \expnd0\expndtw0\kerning0
+ /\cf4 \expnd0\expndtw0\kerning0
+etc\cf5 \expnd0\expndtw0\kerning0
+/\cf2 \expnd0\expndtw0\kerning0
+hostname\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+echo\cf5 \expnd0\expndtw0\kerning0
+ -\cf6 \expnd0\expndtw0\kerning0
+e\cf5 \expnd0\expndtw0\kerning0
+ \cf7 \expnd0\expndtw0\kerning0
+"\\n127.0.0.1 SERVERNAME.local SERVERNAME\\n"\cf5 \expnd0\expndtw0\kerning0
+ >> /\cf4 \expnd0\expndtw0\kerning0
+etc\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+hosts\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0007 seconds]\
+\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs54 \cf2 \expnd0\expndtw0\kerning0
+Install software and dependencies\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs38 \cf2 \expnd0\expndtw0\kerning0
+Type in the next three lines to install Apache2, Python, VirtualEnv and PIP.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth11600\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\
+2\
+3\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf4 \expnd0\expndtw0\kerning0
+apt\cf5 \expnd0\expndtw0\kerning0
+-\cf4 \expnd0\expndtw0\kerning0
+get\cf5 \expnd0\expndtw0\kerning0
+ -\cf6 \expnd0\expndtw0\kerning0
+y\cf5 \expnd0\expndtw0\kerning0
+ \cf2 \expnd0\expndtw0\kerning0
+install \cf4 \expnd0\expndtw0\kerning0
+apache2\cf5 \expnd0\expndtw0\kerning0
+-\cf4 \expnd0\expndtw0\kerning0
+mpm\cf5 \expnd0\expndtw0\kerning0
+-\cf2 \expnd0\expndtw0\kerning0
+worker \cf4 \expnd0\expndtw0\kerning0
+apache2\cf5 \expnd0\expndtw0\kerning0
+-\cf2 \expnd0\expndtw0\kerning0
+dev\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+apt\cf5 \expnd0\expndtw0\kerning0
+-\cf4 \expnd0\expndtw0\kerning0
+get\cf5 \expnd0\expndtw0\kerning0
+ -\cf6 \expnd0\expndtw0\kerning0
+y\cf5 \expnd0\expndtw0\kerning0
+ \cf2 \expnd0\expndtw0\kerning0
+install python \cf4 \expnd0\expndtw0\kerning0
+python\cf5 \expnd0\expndtw0\kerning0
+-\cf2 \expnd0\expndtw0\kerning0
+dev \cf4 \expnd0\expndtw0\kerning0
+python\cf5 \expnd0\expndtw0\kerning0
+-\cf2 \expnd0\expndtw0\kerning0
+setuptools\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+easy_install virtualenv virtualenvwrapper \cf4 \expnd0\expndtw0\kerning0
+pip\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0008 seconds]\
+\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs54 \cf2 \expnd0\expndtw0\kerning0
+Install and enable mod_WSGI\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs38 \cf2 \expnd0\expndtw0\kerning0
+We will wget the latest mod_wsgi, since the time I checked Ubuntu only offered outdated version. Last commands here will add the mod to Apache2 and disable Apaches default site.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth15480\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\
+2\
+3\
+4\
+5\
+6\
+7\
+8\
+9\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+wget \cf4 \expnd0\expndtw0\kerning0
+http\cf5 \expnd0\expndtw0\kerning0
+:\cf8 \expnd0\expndtw0\kerning0
+//modwsgi.googlecode.com/files/mod_wsgi-3.4.tar.gz\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+tar xvfz \cf4 \expnd0\expndtw0\kerning0
+mod_wsgi\cf5 \expnd0\expndtw0\kerning0
+-\cf2 \expnd0\expndtw0\kerning0
+3.4.tar.gz\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+cd \cf4 \expnd0\expndtw0\kerning0
+mod_wsgi\cf5 \expnd0\expndtw0\kerning0
+-\cf2 \expnd0\expndtw0\kerning0
+3.4\cf0 \expnd0\expndtw0\kerning0
+\
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+.\cf5 \expnd0\expndtw0\kerning0
+/\cf2 \expnd0\expndtw0\kerning0
+configure\cf0 \expnd0\expndtw0\kerning0
+\
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+make\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+make install\cf0 \expnd0\expndtw0\kerning0
+\
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf6 \expnd0\expndtw0\kerning0
+echo\cf5 \expnd0\expndtw0\kerning0
+ \cf7 \expnd0\expndtw0\kerning0
+"LoadModule wsgi_module /usr/lib/apache2/modules/mod_wsgi.so"\cf5 \expnd0\expndtw0\kerning0
+ > /\cf4 \expnd0\expndtw0\kerning0
+etc\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+apache2\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+mods\cf5 \expnd0\expndtw0\kerning0
+-\cf4 \expnd0\expndtw0\kerning0
+available\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+wsgi\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+load\cf0 \expnd0\expndtw0\kerning0
+\
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+a2enmod wsgi\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+a2dissite \cf9 \expnd0\expndtw0\kerning0
+default\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0009 seconds]\
+\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs54 \cf2 \expnd0\expndtw0\kerning0
+Install and configure MySQL\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs38 \cf2 \expnd0\expndtw0\kerning0
+Here we will install MySQL and create database, database user and give privileges for that user to the database. Be sure to modify DATABASENAME with the database name of your choice, DATABASEUSER with the database username of your choice and of course PASSWORD with the password for that database user.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth13900\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\
+2\
+3\
+4\
+5\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf4 \expnd0\expndtw0\kerning0
+apt\cf5 \expnd0\expndtw0\kerning0
+-\cf4 \expnd0\expndtw0\kerning0
+get\cf5 \expnd0\expndtw0\kerning0
+ -\cf6 \expnd0\expndtw0\kerning0
+y\cf5 \expnd0\expndtw0\kerning0
+ \cf2 \expnd0\expndtw0\kerning0
+install \cf4 \expnd0\expndtw0\kerning0
+mysql\cf5 \expnd0\expndtw0\kerning0
+-\cf2 \expnd0\expndtw0\kerning0
+server \cf4 \expnd0\expndtw0\kerning0
+mysql\cf5 \expnd0\expndtw0\kerning0
+-\cf2 \expnd0\expndtw0\kerning0
+client\cf0 \expnd0\expndtw0\kerning0
+\
+\cf6 \expnd0\expndtw0\kerning0
+echo\cf5 \expnd0\expndtw0\kerning0
+ \cf7 \expnd0\expndtw0\kerning0
+"CREATE DATABASE DATABASENAME;"\cf5 \expnd0\expndtw0\kerning0
+ | \cf4 \expnd0\expndtw0\kerning0
+mysql\cf5 \expnd0\expndtw0\kerning0
+ -\cf6 \expnd0\expndtw0\kerning0
+u\cf5 \expnd0\expndtw0\kerning0
+ \cf4 \expnd0\expndtw0\kerning0
+root\cf5 \expnd0\expndtw0\kerning0
+ -\cf6 \expnd0\expndtw0\kerning0
+p\cf0 \expnd0\expndtw0\kerning0
+\
+\cf6 \expnd0\expndtw0\kerning0
+echo\cf5 \expnd0\expndtw0\kerning0
+ \cf7 \expnd0\expndtw0\kerning0
+"CREATE USER 'DATABASEUSER'@'localhost' IDENTIFIED BY 'PASSWORD';"\cf5 \expnd0\expndtw0\kerning0
+ | \cf4 \expnd0\expndtw0\kerning0
+mysql\cf5 \expnd0\expndtw0\kerning0
+ -\cf6 \expnd0\expndtw0\kerning0
+u\cf5 \expnd0\expndtw0\kerning0
+ \cf4 \expnd0\expndtw0\kerning0
+root\cf5 \expnd0\expndtw0\kerning0
+ -\cf6 \expnd0\expndtw0\kerning0
+p\cf0 \expnd0\expndtw0\kerning0
+\
+\cf6 \expnd0\expndtw0\kerning0
+echo\cf5 \expnd0\expndtw0\kerning0
+ \cf7 \expnd0\expndtw0\kerning0
+"GRANT ALL PRIVILEGES ON DATABASENAME.* TO 'DATABASEUSER'@'localhost';"\cf5 \expnd0\expndtw0\kerning0
+ | \cf4 \expnd0\expndtw0\kerning0
+mysql\cf5 \expnd0\expndtw0\kerning0
+ -\cf6 \expnd0\expndtw0\kerning0
+u\cf5 \expnd0\expndtw0\kerning0
+ \cf4 \expnd0\expndtw0\kerning0
+root\cf5 \expnd0\expndtw0\kerning0
+ -\cf6 \expnd0\expndtw0\kerning0
+p\cf0 \expnd0\expndtw0\kerning0
+\
+\cf6 \expnd0\expndtw0\kerning0
+echo\cf5 \expnd0\expndtw0\kerning0
+ \cf7 \expnd0\expndtw0\kerning0
+"FLUSH PRIVILEGES;"\cf5 \expnd0\expndtw0\kerning0
+ | \cf4 \expnd0\expndtw0\kerning0
+mysql\cf5 \expnd0\expndtw0\kerning0
+ -\cf6 \expnd0\expndtw0\kerning0
+u\cf5 \expnd0\expndtw0\kerning0
+ \cf4 \expnd0\expndtw0\kerning0
+root\cf5 \expnd0\expndtw0\kerning0
+ -\cf4 \expnd0\expndtw0\kerning0
+p\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0016 seconds]\
+\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs54 \cf2 \expnd0\expndtw0\kerning0
+Install Python environment and Django\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs38 \cf2 \expnd0\expndtw0\kerning0
+First we create couple of folders for Django and then we will create virtual Python environment with VirtualEnv. Finally we get Django from PIP.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth11600\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\
+2\
+3\
+4\
+5\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf4 \expnd0\expndtw0\kerning0
+cd\cf5 \expnd0\expndtw0\kerning0
+ /\cf4 \expnd0\expndtw0\kerning0
+srv\cf5 \expnd0\expndtw0\kerning0
+/\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+mkdir\cf5 \expnd0\expndtw0\kerning0
+ -\cf6 \expnd0\expndtw0\kerning0
+p\cf5 \expnd0\expndtw0\kerning0
+ \cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf2 \expnd0\expndtw0\kerning0
+app \cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+app\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+conf\cf5 \expnd0\expndtw0\kerning0
+/\cf2 \expnd0\expndtw0\kerning0
+apache\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+mkdir\cf5 \expnd0\expndtw0\kerning0
+ -\cf6 \expnd0\expndtw0\kerning0
+p\cf5 \expnd0\expndtw0\kerning0
+ \cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf2 \expnd0\expndtw0\kerning0
+logs \cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+run\cf5 \expnd0\expndtw0\kerning0
+/\cf2 \expnd0\expndtw0\kerning0
+eggs\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+virtualenv \cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+venv\cf0 \expnd0\expndtw0\kerning0
+\
+\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+srv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+venv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+bin\cf5 \expnd0\expndtw0\kerning0
+/\cf2 \expnd0\expndtw0\kerning0
+pip install \cf4 \expnd0\expndtw0\kerning0
+django\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0011 seconds]\
+\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs54 \cf2 \expnd0\expndtw0\kerning0
+Start Django project\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs38 \cf2 \expnd0\expndtw0\kerning0
+Next we\'92ll start an example Django project. Basically Django is now fully installed but we have to start some project to show all of the complicated steps of deployment. Follow the commands strictly so you will end up in the right directories.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth13460\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\
+2\
+3\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+pushd \cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+app\cf5 \expnd0\expndtw0\kerning0
+/\cf0 \expnd0\expndtw0\kerning0
+\
+\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+srv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+venv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+bin\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+python\cf5 \expnd0\expndtw0\kerning0
+ /\cf4 \expnd0\expndtw0\kerning0
+srv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+venv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+bin\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+django\cf5 \expnd0\expndtw0\kerning0
+-\cf4 \expnd0\expndtw0\kerning0
+admin\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+py startproject webapp\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+popd\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0007 seconds]\
+\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs54 \cf2 \expnd0\expndtw0\kerning0
+mod_WSGI Configuration File\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs38 \cf2 \expnd0\expndtw0\kerning0
+We need to make a configuration file for mod_WSGI which will be used by Apache2. First create some folders for Django and move into configuration folder.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth11600\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\
+2\
+3\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf4 \expnd0\expndtw0\kerning0
+mkdir\cf5 \expnd0\expndtw0\kerning0
+ -\cf6 \expnd0\expndtw0\kerning0
+p\cf5 \expnd0\expndtw0\kerning0
+ \cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+app\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+webapp\cf5 \expnd0\expndtw0\kerning0
+/\cf2 \expnd0\expndtw0\kerning0
+site_media\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+mkdir\cf5 \expnd0\expndtw0\kerning0
+ -\cf6 \expnd0\expndtw0\kerning0
+p\cf5 \expnd0\expndtw0\kerning0
+ \cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+app\cf5 \expnd0\expndtw0\kerning0
+/\cf2 \expnd0\expndtw0\kerning0
+templates\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+cd \cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+app\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+conf\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+apache\cf5 \expnd0\expndtw0\kerning0
+/\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0007 seconds]\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+Open nano to create a configuration file\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth11600\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+nano \cf4 \expnd0\expndtw0\kerning0
+django\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+wsgi\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0002 seconds]\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+Paste the following code into the editor and save it.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth500\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth14180\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\
+2\
+3\
+4\
+5\
+6\
+7\
+8\
+9\
+10\
+11\
+12\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+import os\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+import sys\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+\'a0\cf0 \expnd0\expndtw0\kerning0
+\
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf4 \expnd0\expndtw0\kerning0
+root_path\cf5 \expnd0\expndtw0\kerning0
+ = \cf4 \expnd0\expndtw0\kerning0
+os\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+path\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+abspath\expnd0\expndtw0\kerning0
+(\cf4 \expnd0\expndtw0\kerning0
+os\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+path\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+join\expnd0\expndtw0\kerning0
+(\cf4 \expnd0\expndtw0\kerning0
+os\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+path\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+dirname\expnd0\expndtw0\kerning0
+(\cf4 \expnd0\expndtw0\kerning0
+__file__\cf2 \expnd0\expndtw0\kerning0
+),\cf5 \expnd0\expndtw0\kerning0
+ \cf7 \expnd0\expndtw0\kerning0
+'..'\cf2 \expnd0\expndtw0\kerning0
+,\cf5 \expnd0\expndtw0\kerning0
+ \cf7 \expnd0\expndtw0\kerning0
+'..'\cf2 \expnd0\expndtw0\kerning0
+,\cf5 \expnd0\expndtw0\kerning0
+ \cf7 \expnd0\expndtw0\kerning0
+'..'\cf2 \expnd0\expndtw0\kerning0
+))\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+sys\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+path\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+insert\expnd0\expndtw0\kerning0
+(\expnd0\expndtw0\kerning0
+0\expnd0\expndtw0\kerning0
+,\cf5 \expnd0\expndtw0\kerning0
+ \cf4 \expnd0\expndtw0\kerning0
+os\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+path\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+abspath\expnd0\expndtw0\kerning0
+(\cf4 \expnd0\expndtw0\kerning0
+os\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+path\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+join\expnd0\expndtw0\kerning0
+(\cf4 \expnd0\expndtw0\kerning0
+root_path\cf2 \expnd0\expndtw0\kerning0
+,\cf5 \expnd0\expndtw0\kerning0
+ \cf7 \expnd0\expndtw0\kerning0
+'venv/lib/python2.7/site-packages/'\cf2 \expnd0\expndtw0\kerning0
+)))\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+sys\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+path\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+insert\expnd0\expndtw0\kerning0
+(\expnd0\expndtw0\kerning0
+0\expnd0\expndtw0\kerning0
+,\cf5 \expnd0\expndtw0\kerning0
+ \cf4 \expnd0\expndtw0\kerning0
+os\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+path\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+abspath\expnd0\expndtw0\kerning0
+(\cf4 \expnd0\expndtw0\kerning0
+os\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+path\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+join\expnd0\expndtw0\kerning0
+(\cf4 \expnd0\expndtw0\kerning0
+root_path\cf2 \expnd0\expndtw0\kerning0
+,\cf5 \expnd0\expndtw0\kerning0
+ \cf7 \expnd0\expndtw0\kerning0
+'app'\cf2 \expnd0\expndtw0\kerning0
+)))\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+sys\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+path\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+insert\expnd0\expndtw0\kerning0
+(\expnd0\expndtw0\kerning0
+0\expnd0\expndtw0\kerning0
+,\cf5 \expnd0\expndtw0\kerning0
+ \cf4 \expnd0\expndtw0\kerning0
+os\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+path\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+abspath\expnd0\expndtw0\kerning0
+(\cf4 \expnd0\expndtw0\kerning0
+os\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+path\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+join\expnd0\expndtw0\kerning0
+(\cf4 \expnd0\expndtw0\kerning0
+root_path\cf2 \expnd0\expndtw0\kerning0
+,\cf5 \expnd0\expndtw0\kerning0
+ \cf7 \expnd0\expndtw0\kerning0
+'app'\cf2 \expnd0\expndtw0\kerning0
+,\cf5 \expnd0\expndtw0\kerning0
+ \cf7 \expnd0\expndtw0\kerning0
+'webapp'\cf2 \expnd0\expndtw0\kerning0
+)))\cf0 \expnd0\expndtw0\kerning0
+\
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\'a0\cf0 \expnd0\expndtw0\kerning0
+\
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf4 \expnd0\expndtw0\kerning0
+os\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+environ\cf2 \expnd0\expndtw0\kerning0
+[\cf7 \expnd0\expndtw0\kerning0
+'DJANGO_SETTINGS_MODULE'\cf2 \expnd0\expndtw0\kerning0
+]\cf5 \expnd0\expndtw0\kerning0
+ = \cf7 \expnd0\expndtw0\kerning0
+'webapp.settings'\cf0 \expnd0\expndtw0\kerning0
+\
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\'a0\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+import \cf4 \expnd0\expndtw0\kerning0
+django\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+core\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+handlers\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+wsgi\cf0 \expnd0\expndtw0\kerning0
+\
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf4 \expnd0\expndtw0\kerning0
+application\cf5 \expnd0\expndtw0\kerning0
+ = \cf4 \expnd0\expndtw0\kerning0
+django\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+core\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+handlers\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+wsgi\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+WSGIHandler\expnd0\expndtw0\kerning0
+()\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0032 seconds]\
+\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs54 \cf2 \expnd0\expndtw0\kerning0
+Create system user\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs38 \cf2 \expnd0\expndtw0\kerning0
+Now we will create a system to run Apaches\'92 mod_WSGI process. Make sure to edit USERNAME. Last command will set a shell to that user.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth12160\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\
+2\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf4 \expnd0\expndtw0\kerning0
+useradd\cf5 \expnd0\expndtw0\kerning0
+ --\cf4 \expnd0\expndtw0\kerning0
+system\cf5 \expnd0\expndtw0\kerning0
+ --\cf4 \expnd0\expndtw0\kerning0
+no\cf5 \expnd0\expndtw0\kerning0
+-\cf4 \expnd0\expndtw0\kerning0
+create\cf5 \expnd0\expndtw0\kerning0
+-\cf4 \expnd0\expndtw0\kerning0
+home\cf5 \expnd0\expndtw0\kerning0
+ --\cf4 \expnd0\expndtw0\kerning0
+home\cf5 \expnd0\expndtw0\kerning0
+-\cf4 \expnd0\expndtw0\kerning0
+dir\cf5 \expnd0\expndtw0\kerning0
+ /\cf4 \expnd0\expndtw0\kerning0
+srv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/ --\cf4 \expnd0\expndtw0\kerning0
+user\cf5 \expnd0\expndtw0\kerning0
+-\cf2 \expnd0\expndtw0\kerning0
+group USERNAME\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+chsh\cf5 \expnd0\expndtw0\kerning0
+ -\cf4 \expnd0\expndtw0\kerning0
+s\cf5 \expnd0\expndtw0\kerning0
+ /\cf4 \expnd0\expndtw0\kerning0
+bin\cf5 \expnd0\expndtw0\kerning0
+/\cf2 \expnd0\expndtw0\kerning0
+bash \cf4 \expnd0\expndtw0\kerning0
+USERNAME\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0008 seconds]\
+\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs54 \cf2 \expnd0\expndtw0\kerning0
+Apache Site Configuration\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs38 \cf2 \expnd0\expndtw0\kerning0
+I have created an example site configuration which works on normal network environments. Open nano to the site file with the following command. Remember to edit DOMAIN with your own domain name.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth11600\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf4 \expnd0\expndtw0\kerning0
+nano\cf5 \expnd0\expndtw0\kerning0
+ /\cf4 \expnd0\expndtw0\kerning0
+etc\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+apache2\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+sites\cf5 \expnd0\expndtw0\kerning0
+-\cf4 \expnd0\expndtw0\kerning0
+available\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+DOMAIN\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0004 seconds]\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+Paste the following to the editor and edit DOMAIN with your own domain name and USER with the username we just created a while ago.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth500\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth27440\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\
+2\
+3\
+4\
+5\
+6\
+7\
+8\
+9\
+10\
+11\
+12\
+13\
+14\
+15\
+16\
+17\
+18\
+19\
+20\
+21\
+22\
+23\
+24\
+25\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+ServerAdmin \cf4 \expnd0\expndtw0\kerning0
+root\cf2 \expnd0\expndtw0\kerning0
+@\expnd0\expndtw0\kerning0
+DOMAIN\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+ServerName DOMAIN\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+\'a0\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+Alias\cf5 \expnd0\expndtw0\kerning0
+ /\cf4 \expnd0\expndtw0\kerning0
+site_media\cf5 \expnd0\expndtw0\kerning0
+/ /\cf4 \expnd0\expndtw0\kerning0
+srv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+app\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+webapp\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+site_media\cf5 \expnd0\expndtw0\kerning0
+/\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+Alias\cf5 \expnd0\expndtw0\kerning0
+ /\cf9 \expnd0\expndtw0\kerning0
+static\cf5 \expnd0\expndtw0\kerning0
+/ /\cf4 \expnd0\expndtw0\kerning0
+srv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+venv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+lib\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+python2\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+7\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+site\cf5 \expnd0\expndtw0\kerning0
+-\cf4 \expnd0\expndtw0\kerning0
+packages\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+django\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+contrib\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+admin\cf5 \expnd0\expndtw0\kerning0
+/\cf9 \expnd0\expndtw0\kerning0
+static\cf5 \expnd0\expndtw0\kerning0
+/\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+Alias\cf5 \expnd0\expndtw0\kerning0
+ /\cf4 \expnd0\expndtw0\kerning0
+robots\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+txt\cf5 \expnd0\expndtw0\kerning0
+ /\cf4 \expnd0\expndtw0\kerning0
+srv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+app\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+webapp\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+site_media\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+robots\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+txt\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+Alias\cf5 \expnd0\expndtw0\kerning0
+ /\cf4 \expnd0\expndtw0\kerning0
+favicon\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+ico\cf5 \expnd0\expndtw0\kerning0
+ /\cf4 \expnd0\expndtw0\kerning0
+srv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+app\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+webapp\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+site_media\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+favicon\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+ico\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+\'a0\cf0 \expnd0\expndtw0\kerning0
+\
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf6 \expnd0\expndtw0\kerning0
+CustomLog\cf5 \expnd0\expndtw0\kerning0
+ \cf7 \expnd0\expndtw0\kerning0
+"|/usr/sbin/rotatelogs /srv/my_project/logs/access.log.%Y%m%d-%H%M%S 5M"\cf5 \expnd0\expndtw0\kerning0
+ \cf2 \expnd0\expndtw0\kerning0
+combined\cf0 \expnd0\expndtw0\kerning0
+\
+\cf6 \expnd0\expndtw0\kerning0
+ErrorLog\cf5 \expnd0\expndtw0\kerning0
+ \cf7 \expnd0\expndtw0\kerning0
+"|/usr/sbin/rotatelogs /srv/my_project/logs/error.log.%Y%m%d-%H%M%S 5M"\cf0 \expnd0\expndtw0\kerning0
+\
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+LogLevel warn\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+\'a0\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+WSGIDaemonProcess DOMAIN \cf4 \expnd0\expndtw0\kerning0
+user\cf5 \expnd0\expndtw0\kerning0
+=\cf2 \expnd0\expndtw0\kerning0
+USER \cf4 \expnd0\expndtw0\kerning0
+group\cf5 \expnd0\expndtw0\kerning0
+=\cf2 \expnd0\expndtw0\kerning0
+USER \cf4 \expnd0\expndtw0\kerning0
+processes\cf5 \expnd0\expndtw0\kerning0
+=\cf2 \expnd0\expndtw0\kerning0
+1\cf5 \expnd0\expndtw0\kerning0
+ \cf4 \expnd0\expndtw0\kerning0
+threads\cf5 \expnd0\expndtw0\kerning0
+=\cf2 \expnd0\expndtw0\kerning0
+15\cf5 \expnd0\expndtw0\kerning0
+ \cf4 \expnd0\expndtw0\kerning0
+maximum\cf5 \expnd0\expndtw0\kerning0
+-\cf4 \expnd0\expndtw0\kerning0
+requests\cf5 \expnd0\expndtw0\kerning0
+=\cf2 \expnd0\expndtw0\kerning0
+10000\cf5 \expnd0\expndtw0\kerning0
+ \cf4 \expnd0\expndtw0\kerning0
+python\cf5 \expnd0\expndtw0\kerning0
+-\cf4 \expnd0\expndtw0\kerning0
+path\cf5 \expnd0\expndtw0\kerning0
+=/\cf4 \expnd0\expndtw0\kerning0
+srv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+venv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+lib\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+python2\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+7\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+site\cf5 \expnd0\expndtw0\kerning0
+-\cf2 \expnd0\expndtw0\kerning0
+packages \cf4 \expnd0\expndtw0\kerning0
+python\cf5 \expnd0\expndtw0\kerning0
+-\cf4 \expnd0\expndtw0\kerning0
+eggs\cf5 \expnd0\expndtw0\kerning0
+=/\cf4 \expnd0\expndtw0\kerning0
+srv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+run\cf5 \expnd0\expndtw0\kerning0
+/\cf2 \expnd0\expndtw0\kerning0
+eggs\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+WSGIProcessGroup DOMAIN\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+WSGIScriptAlias\cf5 \expnd0\expndtw0\kerning0
+ / /\cf4 \expnd0\expndtw0\kerning0
+srv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+app\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+conf\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+apache\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+django\cf2 \expnd0\expndtw0\kerning0
+.\expnd0\expndtw0\kerning0
+wsgi\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+\'a0\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+\'a0\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+Order \cf4 \expnd0\expndtw0\kerning0
+deny\cf2 \expnd0\expndtw0\kerning0
+,\expnd0\expndtw0\kerning0
+allow\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+Allow from all\cf0 \expnd0\expndtw0\kerning0
+\
+\cf4 \expnd0\expndtw0\kerning0
+Options\cf5 \expnd0\expndtw0\kerning0
+ -\cf2 \expnd0\expndtw0\kerning0
+Indexes FollowSymLinks\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+\'a0\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+\'a0\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+\'a0\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+Order \cf4 \expnd0\expndtw0\kerning0
+deny\cf2 \expnd0\expndtw0\kerning0
+,\expnd0\expndtw0\kerning0
+allow\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+Allow from \cf4 \expnd0\expndtw0\kerning0
+all\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0041 seconds]\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+Now we just need to activate that configuration to Apache. Edit DOMAIN again to your own.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth11600\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+a2ensite \cf4 \expnd0\expndtw0\kerning0
+DOMAIN\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0001 seconds]\
+\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs54 \cf2 \expnd0\expndtw0\kerning0
+MySQL dependency to Python\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs38 \cf2 \expnd0\expndtw0\kerning0
+Next we need to install MySQL-module for our Python environment\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth11600\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\
+2\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf4 \expnd0\expndtw0\kerning0
+apt\cf5 \expnd0\expndtw0\kerning0
+-\cf2 \expnd0\expndtw0\kerning0
+get \cf4 \expnd0\expndtw0\kerning0
+build\cf5 \expnd0\expndtw0\kerning0
+-\cf2 \expnd0\expndtw0\kerning0
+dep \cf4 \expnd0\expndtw0\kerning0
+python\cf5 \expnd0\expndtw0\kerning0
+-\cf4 \expnd0\expndtw0\kerning0
+mysqldb\cf0 \expnd0\expndtw0\kerning0
+\
+\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+srv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+venv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+bin\cf5 \expnd0\expndtw0\kerning0
+/\cf2 \expnd0\expndtw0\kerning0
+pip install \cf4 \expnd0\expndtw0\kerning0
+MySQL\cf5 \expnd0\expndtw0\kerning0
+-\cf4 \expnd0\expndtw0\kerning0
+python\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0013 seconds]\
+\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs54 \cf2 \expnd0\expndtw0\kerning0
+Configuration of Django\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs38 \cf2 \expnd0\expndtw0\kerning0
+Move to project folder and edit settings.py file.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth11600\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\
+2\
+3\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf6 \expnd0\expndtw0\kerning0
+cd\cf5 \expnd0\expndtw0\kerning0
+ \cf2 \expnd0\expndtw0\kerning0
+..\cf5 \expnd0\expndtw0\kerning0
+/\cf2 \expnd0\expndtw0\kerning0
+..\cf5 \expnd0\expndtw0\kerning0
+/\cf0 \expnd0\expndtw0\kerning0
+\
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+cd \cf4 \expnd0\expndtw0\kerning0
+webapp\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+webapp\cf5 \expnd0\expndtw0\kerning0
+/\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+nano \cf4 \expnd0\expndtw0\kerning0
+settings\cf2 \expnd0\expndtw0\kerning0
+.\cf4 \expnd0\expndtw0\kerning0
+py\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0010 seconds]\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+There you need to edit your own specific MySQL details.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth11600\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\
+2\
+3\
+4\
+5\
+6\
+7\
+8\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf4 \expnd0\expndtw0\kerning0
+DATABASES\cf5 \expnd0\expndtw0\kerning0
+ = \cf2 \expnd0\expndtw0\kerning0
+\{\cf0 \expnd0\expndtw0\kerning0
+\
+\cf5 \expnd0\expndtw0\kerning0
+	\cf7 \expnd0\expndtw0\kerning0
+'default'\cf5 \expnd0\expndtw0\kerning0
+: \cf2 \expnd0\expndtw0\kerning0
+\{\cf0 \expnd0\expndtw0\kerning0
+\
+\cf5 \expnd0\expndtw0\kerning0
+		\cf7 \expnd0\expndtw0\kerning0
+'ENGINE'\cf5 \expnd0\expndtw0\kerning0
+: \cf7 \expnd0\expndtw0\kerning0
+'django.db.backends.mysql'\cf2 \expnd0\expndtw0\kerning0
+,\cf0 \expnd0\expndtw0\kerning0
+\
+\cf5 \expnd0\expndtw0\kerning0
+		\cf7 \expnd0\expndtw0\kerning0
+'NAME'\cf5 \expnd0\expndtw0\kerning0
+: \cf7 \expnd0\expndtw0\kerning0
+'DATABASENAME'\cf2 \expnd0\expndtw0\kerning0
+,\cf0 \expnd0\expndtw0\kerning0
+\
+\cf5 \expnd0\expndtw0\kerning0
+		\cf7 \expnd0\expndtw0\kerning0
+'USER'\cf5 \expnd0\expndtw0\kerning0
+: \cf7 \expnd0\expndtw0\kerning0
+'DATABASEUSER'\cf2 \expnd0\expndtw0\kerning0
+,\cf0 \expnd0\expndtw0\kerning0
+\
+\cf5 \expnd0\expndtw0\kerning0
+		\cf7 \expnd0\expndtw0\kerning0
+'PASSWORD'\cf5 \expnd0\expndtw0\kerning0
+: \cf7 \expnd0\expndtw0\kerning0
+'DATABASEPASSWORD'\cf2 \expnd0\expndtw0\kerning0
+,\cf0 \expnd0\expndtw0\kerning0
+\
+\cf5 \expnd0\expndtw0\kerning0
+	\cf2 \expnd0\expndtw0\kerning0
+\}\cf0 \expnd0\expndtw0\kerning0
+\
+\cf2 \expnd0\expndtw0\kerning0
+\}\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0018 seconds]\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+Also add these lines to the settings file MEDIA_ROOT = '/srv/my_project/app/webapp/site_media/' and TEMPLATE_DIRS = '/srv/my_project/app/templates/',\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs54 \cf2 \expnd0\expndtw0\kerning0
+Set permissions and restart Apache\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs38 \cf2 \expnd0\expndtw0\kerning0
+Now we have to set permissions for the user we made while ago. Edit USERNAME to your own.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth11600\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf4 \expnd0\expndtw0\kerning0
+chown\cf5 \expnd0\expndtw0\kerning0
+ -\cf6 \expnd0\expndtw0\kerning0
+R\cf5 \expnd0\expndtw0\kerning0
+ \cf4 \expnd0\expndtw0\kerning0
+USERNAME\cf5 \expnd0\expndtw0\kerning0
+:\cf4 \expnd0\expndtw0\kerning0
+USERNAME\cf5 \expnd0\expndtw0\kerning0
+ /\cf4 \expnd0\expndtw0\kerning0
+srv\cf5 \expnd0\expndtw0\kerning0
+/\cf4 \expnd0\expndtw0\kerning0
+my_project\cf5 \expnd0\expndtw0\kerning0
+/\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0007 seconds]\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+We have done everything to deploy Django so, all we need to do in order to get Django working is to restart Apache webserver.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+Crayon Syntax Highlighter v2.7.1
+\f1\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clcbpat1 \clwWidth360\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth11600\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf3 \expnd0\expndtw0\kerning0
+1\cell 
+\pard\intbl\itap1\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+service apache2 \cf4 \expnd0\expndtw0\kerning0
+restart\cf0 \expnd0\expndtw0\kerning0
+\cell \lastrow\row
+\pard\pardeftab720
+
+\f0\fs38 \cf2 \expnd0\expndtw0\kerning0
+[Format Time: 0.0003 seconds]\
+\pard\pardeftab720\parhyphenfactor20
+\cf2 \expnd0\expndtw0\kerning0
+You should see something like this on your domain website.\
+\pard\pardeftab720\parhyphenfactor20
+{\field{\*\fldinst{HYPERLINK "https://www.lennu.net/wp-content/uploads/2015/01/django.jpg"}}{\fldrslt \cf2 \expnd0\expndtw0\kerning0
+{{\NeXTGraphic django.jpg \width10620 \height3960 \noorient
+}¬}\pard\pardeftab720\parhyphenfactor20
+\cf2 \
+}}\pard\pardeftab720\parhyphenfactor20
+\cf2 Now you have completely installed Django framework on a working Ubuntu server installation. Deployment is done to the part where we need here an actual website.\
+I hope this tutorial has helped and please leave a comment or contact me from the about page, if you have any questions.\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs64 \cf2 \expnd0\expndtw0\kerning0
+Django apps and actual website\
+\pard\pardeftab720\parhyphenfactor20
+
+\fs38 \cf2 \expnd0\expndtw0\kerning0
+If you are new to Django and want to build fully functional website. I suggest you start from the {\field{\*\fldinst{HYPERLINK "https://docs.djangoproject.com/en/1.6/intro/tutorial01/"}}{\fldrslt \expnd0\expndtw0\kerning0
+official tutorial}} which I think is one the best learning tutorials around web frameworks.\
+\pard\pardeftab720
+\cf2 \expnd0\expndtw0\kerning0
+.entry-content
+\fs32 \cf2 \cb10 \expnd0\expndtw0\kerning0
+\
+Posted on\cb1 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720
+{\field{\*\fldinst{HYPERLINK "https://www.lennu.net/django-deployment-installation-to-ubuntu-12-dot-04-server/"}}{\fldrslt \cf2 \cb10 \expnd0\expndtw0\kerning0
+January 15, 2015}}\
+\pard\pardeftab720
+\cf2 \cb10 \expnd0\expndtw0\kerning0
+Categories\cb1 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720
+{\field{\*\fldinst{HYPERLINK "https://www.lennu.net/category/tutorials/"}}{\fldrslt \cf2 \cb10 \expnd0\expndtw0\kerning0
+Tutorials}}\cb10 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720
+
+\fs38 \cf2 \cb1 \expnd0\expndtw0\kerning0
+.entry-footer\
+#post-##\
+}
