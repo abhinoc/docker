@@ -1,0 +1,113 @@
+
+
+
+
+
+
+Abhi:vagrant_getting_started abhinoc$ VBoxManage list vms
+"ServerX" {207ab614-81f8-4b79-b0d9-5ef8eae4c0a0}
+"learn_puppet_centos-6.5" {3415b59d-cddf-40cb-8377-5c70bc24f38e}
+"boot2docker-vm" {50a22b61-5abc-45c5-be23-8fa5c90d0e99}
+"Puppet" {ba278f80-4d15-4914-b282-3d40da317e83}
+"abhinoc_default_1443098286912_13488" {3271f186-b740-46f2-a33d-6cee0c760fd5}
+"vagrant_getting_started_default_1443159228515_74397" {aea7077a-f015-4cb7-8114-2d27a097e4ed}
+You have new mail in /var/mail/abhinoc
+Abhi:vagrant_getting_started abhinoc$ vagrant package --base vagrant_getting_started_default_1443159228515_74397 --output /Users/abhinoc/Documents/vagrant1.box
+
+
+Abhi:vagrant_getting_started abhinoc$ vagrant box add ABHI-VAGRANT ~/Documents/vagrant1.box 
+==> box: Box file was not detected as metadata. Adding it directly...
+==> box: Adding box 'ABHI-VAGRANT' (v0) for provider: 
+    box: Unpacking necessary files from: file:///Users/abhinoc/Documents/vagrant1.box
+==> box: Successfully added box 'ABHI-VAGRANT' (v0) for 'virtualbox'!
+Abhi:vagrant_getting_started abhinoc$ 
+
+
+
+Abhi:vagrant_getting_started abhinoc$ vagrant box list
+ABHI-VAGRANT        (virtualbox, 0)
+hashicorp/precise32 (virtualbox, 1.0.0)
+Abhi:vagrant_getting_started abhinoc$ 
+
+
+
+NAGIOS
+https://www.nagios.org/downloads/nagios-core/thanks/
+
+
+Abhi:nagios-client abhinoc$ vagrant up
+Bringing machine 'default' up with 'virtualbox' provider...
+==> default: Fixed port collision for 22 => 2222. Now on port 2200.
+==> default: Clearing any previously set network interfaces...
+==> default: Preparing network interfaces based on configuration...
+    default: Adapter 1: nat
+    default: Adapter 2: hostonly
+==> default: Forwarding ports...
+    default: 22 => 2200 (adapter 1)
+==> default: Booting VM...
+==> default: Waiting for machine to boot. This may take a few minutes...
+    default: SSH address: 127.0.0.1:2200
+    default: SSH username: vagrant
+    default: SSH auth method: private key
+    default: Warning: Connection timeout. Retrying...
+    default: Warning: Remote connection disconnect. Retrying...
+    default: Warning: Authentication failure. Retrying...
+    default: Warning: Authentication failure. Retrying...
+    default: Warning: Authentication failure. Retrying...
+    default: Warning: Authentication failure. Retrying...
+    default: Warning: Authentication failure. Retrying...
+ default: Warning: Remote connection disconnect. Retrying...^CAbhi:nagios-client abhinoc$ ==> default: Waiting for cleanup before exiting...
+
+Abhi:nagios-client abhinoc$  default: Warning: Remote connection disconnect. Retrying...Vagrant exited after cleanup due to external interrupt.
+
+Abhi:nagios-client abhinoc$ vboxmanage list runningvms
+"boot2docker-vm" {50a22b61-5abc-45c5-be23-8fa5c90d0e99}
+"abhinoc_default_1443098286912_13488" {3271f186-b740-46f2-a33d-6cee0c760fd5}
+"nagios-client_default_1443239947883_45218" {b06efe4e-2a0d-433e-90d3-5122b08aadc1}
+Abhi:nagios-client abhinoc$ vboxmanage controlvm nagios-client_default_1443239947883_45218 keyboardputscancode 1c
+Abhi:nagios-client abhinoc$ vagrant up
+Bringing machine 'default' up with 'virtualbox' provider...
+==> default: VirtualBox VM is already running.
+Abhi:nagios-client abhinoc$ vagrant ssh
+vagrant@127.0.0.1's password: 
+
+
+
+______________________________________________________________________________________
+
+October 6th 2015
+
+
+ 2015-10-06 21:52:11 ☆  Abhi in ~/nagios-client
+○ → vagrant status
+Current machine states:
+
+default                   running (virtualbox)
+
+The VM is running. To stop this VM, you can run `vagrant halt` to
+shut it down forcefully, or you can run `vagrant suspend` to simply
+suspend the virtual machine. In either case, to restart it again,
+simply run `vagrant up`.
+
+ 2015-10-06 21:52:15 ☆  Abhi in ~/nagios-client
+○ → vagrant destroy
+    default: Are you sure you want to destroy the 'default' VM? [y/N] y
+==> default: Forcing shutdown of VM...
+==> default: Destroying VM and associated drives...
+
+ 2015-10-06 21:52:29 ☆  Abhi in ~/nagios-client
+○ → vagrant status
+Current machine states:
+
+default                   not created (virtualbox)
+
+The environment has not yet been created. Run `vagrant up` to
+create the environment. If a machine is not created, only the
+default provider will be shown. So if a provider is not listed,
+then the machine is not created for that environment.
+
+ 2015-10-06 21:52:34 ☆  Abhi in ~/nagios-client
+○ → 
+
+
+
