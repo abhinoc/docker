@@ -1,0 +1,605 @@
+### Docker to Set the hostname
+
+$ docker run -h foo.bar.baz -i -t ubuntu bash
+root@foo:/# hostname
+foo
+root@foo:/# hostname -d
+bar.baz
+root@foo:/# hostname -f
+foo.bar.baz
+root@foo:/#enter code here
+
+
+___________
+
+NTP SERVER
+
+http://askubuntu.com/questions/488072/setting-up-a-standalone-ntp-server-on-ubuntu
+
+Abhi:Puppet abhinoc$ docker run -h ntpserver -d -i -t ubuntu bash
+49d893c3b9ce737aafd2e379818884340aabb2015d8ddec3464197e6cf93ee90
+You have new mail in /var/mail/abhinoc
+Abhi:Puppet abhinoc$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS              PORTS               NAMES
+49d893c3b9ce        ubuntu              "bash"              About a minute ago   Up About a minute                       sad_tesla           
+c48524d738e8        ubuntu              "bash"              7 minutes ago        Up 7 minutes                            fervent_colden      
+Abhi:Puppet abhinoc$ docker exec -i -t 49d893c3b9ce bash
+root@ntpserver:/# cat /etc/ntp.conf
+cat: /etc/ntp.conf: No such file or directory
+root@ntpserver:/# update-rc.d -f ntpdate remove
+Removing any system startup links for /etc/init.d/ntpdate ...
+root@ntpserver:/# apt-get install ntp
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following extra packages will be installed:
+libedit2 libopts25
+Suggested packages:
+ntp-doc apparmor
+The following NEW packages will be installed:
+libedit2 libopts25 ntp
+0 upgraded, 3 newly installed, 0 to remove and 0 not upgraded.
+Need to get 753 kB of archives.
+After this operation, 1910 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://archive.ubuntu.com/ubuntu/ trusty/main libedit2 amd64 3.1-20130712-2 [86.7 kB]
+Get:2 http://archive.ubuntu.com/ubuntu/ trusty/main libopts25 amd64 1:5.18-2ubuntu2 [55.3 kB]
+Get:3 http://archive.ubuntu.com/ubuntu/ trusty/main ntp amd64 1:4.2.6.p5+dfsg-3ubuntu2 [611 kB]
+Fetched 753 kB in 43s (17.3 kB/s)                                              
+Selecting previously unselected package libedit2:amd64.
+(Reading database ... 11541 files and directories currently installed.)
+Preparing to unpack .../libedit2_3.1-20130712-2_amd64.deb ...
+Unpacking libedit2:amd64 (3.1-20130712-2) ...
+Selecting previously unselected package libopts25:amd64.
+Preparing to unpack .../libopts25_1%3a5.18-2ubuntu2_amd64.deb ...
+Unpacking libopts25:amd64 (1:5.18-2ubuntu2) ...
+Selecting previously unselected package ntp.
+Preparing to unpack .../ntp_1%3a4.2.6.p5+dfsg-3ubuntu2_amd64.deb ...
+Unpacking ntp (1:4.2.6.p5+dfsg-3ubuntu2) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+Setting up libedit2:amd64 (3.1-20130712-2) ...
+Setting up libopts25:amd64 (1:5.18-2ubuntu2) ...
+Setting up ntp (1:4.2.6.p5+dfsg-3ubuntu2) ...
+invoke-rc.d: policy-rc.d denied execution of start.
+Processing triggers for libc-bin (2.19-0ubuntu6.6) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+root@ntpserver:/# 
+
+
+
+And then edit the configuration file /etc/ntp.conf
+
+Finally specify your own server address:
+
+server 192.168.20.1
+
+
+ADD server address on Client too file /etc/ntp.conf
+
+
+
+
+_______________________________________________
+
+
+root@puppetmaster:/tmp# wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
+--2015-08-30 06:12:18--  https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
+Resolving apt.puppetlabs.com (apt.puppetlabs.com)... 192.155.89.90
+Connecting to apt.puppetlabs.com (apt.puppetlabs.com)|192.155.89.90|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 7384 (7.2K) [application/x-debian-package]
+Saving to: 'puppetlabs-release-trusty.deb'
+
+100%[===========================================================================================================================================>] 7,384       --.-K/s   in 0s      
+
+2015-08-30 06:12:35 (40.1 MB/s) - 'puppetlabs-release-trusty.deb' saved [7384/7384]
+
+root@puppetmaster:/tmp# wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb^C
+root@puppetmaster:/tmp# dpkg -i puppetlabs-release-trusty.deb 
+Selecting previously unselected package puppetlabs-release.
+(Reading database ... 11907 files and directories currently installed.)
+Preparing to unpack puppetlabs-release-trusty.deb ...
+Unpacking puppetlabs-release (1.0-11) ...
+Setting up puppetlabs-release (1.0-11) ...
+
+
+root@puppetmaster:/tmp# apt-get install puppetmaster
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following extra packages will be installed:
+augeas-lenses debconf-utils dmidecode facter hiera libaugeas-ruby libaugeas0
+libpci3 libruby1.9.1 libxml2 libyaml-0-2 pciutils puppet-common
+puppetmaster-common ruby ruby-augeas ruby-json ruby-shadow ruby1.9.1
+sgml-base virt-what xml-core
+Suggested packages:
+augeas-doc augeas-tools ruby-selinux libselinux-ruby1.8 librrd-ruby1.9.1
+librrd-ruby1.8 apache2 nginx puppet-el vim-puppet stompserver ruby-stomp
+libstomp-ruby1.8 rdoc ruby-ldap libldap-ruby1.8 puppetdb-terminus ri
+ruby-dev ruby1.9.1-examples ri1.9.1 graphviz ruby1.9.1-dev ruby-switch
+sgml-base-doc debhelper
+The following NEW packages will be installed:
+augeas-lenses debconf-utils dmidecode facter hiera libaugeas-ruby libaugeas0
+libpci3 libruby1.9.1 libxml2 libyaml-0-2 pciutils puppet-common puppetmaster
+puppetmaster-common ruby ruby-augeas ruby-json ruby-shadow ruby1.9.1
+sgml-base virt-what xml-core
+0 upgraded, 23 newly installed, 0 to remove and 20 not upgraded.
+Need to get 5568 kB of archives.
+After this operation, 27.6 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://archive.ubuntu.com/ubuntu/ trusty/main libpci3 amd64 1:3.2.1-1ubuntu5 [26.1 kB]
+Get:2 http://apt.puppetlabs.com/ trusty/main facter all 2.4.4-1puppetlabs1 [73.3 kB]
+Get:3 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libxml2 amd64 2.9.1+dfsg1-3ubuntu4.4 [570 kB]
+Get:4 http://apt.puppetlabs.com/ trusty/main hiera all 1.3.4-1puppetlabs1 [12.0 kB]
+Get:5 http://apt.puppetlabs.com/ trusty/main puppet-common all 3.8.2-1puppetlabs1 [1268 kB]
+Get:6 http://archive.ubuntu.com/ubuntu/ trusty/main sgml-base all 1.26+nmu4ubuntu1 [12.5 kB]
+Get:7 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libyaml-0-2 amd64 0.1.4-3ubuntu3.1 [48.1 kB]
+Get:8 http://archive.ubuntu.com/ubuntu/ trusty/main dmidecode amd64 2.12-2 [45.9 kB]
+Get:9 http://archive.ubuntu.com/ubuntu/ trusty/main pciutils amd64 1:3.2.1-1ubuntu5 [269 kB]
+Get:10 http://apt.puppetlabs.com/ trusty/main puppetmaster-common all 3.8.2-1puppetlabs1 [13.8 kB]
+Get:11 http://apt.puppetlabs.com/ trusty/main puppetmaster all 3.8.2-1puppetlabs1 [9988 B]
+Get:12 http://archive.ubuntu.com/ubuntu/ trusty/main xml-core all 0.13+nmu2 [23.3 kB]
+Get:13 http://archive.ubuntu.com/ubuntu/ trusty-updates/main augeas-lenses all 1.2.0-0ubuntu1.1 [230 kB]
+Get:14 http://archive.ubuntu.com/ubuntu/ trusty/main debconf-utils all 1.5.51ubuntu2 [57.4 kB]
+Get:15 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libruby1.9.1 amd64 1.9.3.484-2ubuntu1.2 [2645 kB]
+Get:16 http://archive.ubuntu.com/ubuntu/ trusty-updates/main ruby1.9.1 amd64 1.9.3.484-2ubuntu1.2 [35.6 kB]
+Get:17 http://archive.ubuntu.com/ubuntu/ trusty/main ruby all 1:1.9.3.4 [5334 B]
+Get:18 http://archive.ubuntu.com/ubuntu/ trusty/universe virt-what amd64 1.13-1 [13.6 kB]
+Get:19 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libaugeas0 amd64 1.2.0-0ubuntu1.1 [135 kB]
+Get:20 http://archive.ubuntu.com/ubuntu/ trusty/main ruby-augeas amd64 0.5.0-2 [13.2 kB]
+Get:21 http://archive.ubuntu.com/ubuntu/ trusty/universe libaugeas-ruby all 0.5.0-2 [1394 B]
+Get:22 http://archive.ubuntu.com/ubuntu/ trusty/main ruby-shadow amd64 2.2.0-1 [11.2 kB]
+Get:23 http://archive.ubuntu.com/ubuntu/ trusty/main ruby-json amd64 1.8.0-1build1 [49.0 kB]
+Fetched 5568 kB in 46s (119 kB/s)                                              
+Selecting previously unselected package libpci3:amd64.
+(Reading database ... 11914 files and directories currently installed.)
+Preparing to unpack .../libpci3_1%3a3.2.1-1ubuntu5_amd64.deb ...
+Unpacking libpci3:amd64 (1:3.2.1-1ubuntu5) ...
+Selecting previously unselected package libxml2:amd64.
+Preparing to unpack .../libxml2_2.9.1+dfsg1-3ubuntu4.4_amd64.deb ...
+Unpacking libxml2:amd64 (2.9.1+dfsg1-3ubuntu4.4) ...
+Selecting previously unselected package sgml-base.
+Preparing to unpack .../sgml-base_1.26+nmu4ubuntu1_all.deb ...
+Unpacking sgml-base (1.26+nmu4ubuntu1) ...
+Selecting previously unselected package libyaml-0-2:amd64.
+Preparing to unpack .../libyaml-0-2_0.1.4-3ubuntu3.1_amd64.deb ...
+Unpacking libyaml-0-2:amd64 (0.1.4-3ubuntu3.1) ...
+Selecting previously unselected package dmidecode.
+Preparing to unpack .../dmidecode_2.12-2_amd64.deb ...
+Unpacking dmidecode (2.12-2) ...
+Selecting previously unselected package pciutils.
+Preparing to unpack .../pciutils_1%3a3.2.1-1ubuntu5_amd64.deb ...
+Unpacking pciutils (1:3.2.1-1ubuntu5) ...
+Selecting previously unselected package xml-core.
+Preparing to unpack .../xml-core_0.13+nmu2_all.deb ...
+Unpacking xml-core (0.13+nmu2) ...
+Selecting previously unselected package augeas-lenses.
+Preparing to unpack .../augeas-lenses_1.2.0-0ubuntu1.1_all.deb ...
+Unpacking augeas-lenses (1.2.0-0ubuntu1.1) ...
+Selecting previously unselected package debconf-utils.
+Preparing to unpack .../debconf-utils_1.5.51ubuntu2_all.deb ...
+Unpacking debconf-utils (1.5.51ubuntu2) ...
+Selecting previously unselected package libruby1.9.1.
+Preparing to unpack .../libruby1.9.1_1.9.3.484-2ubuntu1.2_amd64.deb ...
+Unpacking libruby1.9.1 (1.9.3.484-2ubuntu1.2) ...
+Selecting previously unselected package ruby1.9.1.
+Preparing to unpack .../ruby1.9.1_1.9.3.484-2ubuntu1.2_amd64.deb ...
+Unpacking ruby1.9.1 (1.9.3.484-2ubuntu1.2) ...
+Selecting previously unselected package ruby.
+Preparing to unpack .../ruby_1%3a1.9.3.4_all.deb ...
+Unpacking ruby (1:1.9.3.4) ...
+Selecting previously unselected package virt-what.
+Preparing to unpack .../virt-what_1.13-1_amd64.deb ...
+Unpacking virt-what (1.13-1) ...
+Selecting previously unselected package facter.
+Preparing to unpack .../facter_2.4.4-1puppetlabs1_all.deb ...
+Unpacking facter (2.4.4-1puppetlabs1) ...
+Selecting previously unselected package libaugeas0.
+Preparing to unpack .../libaugeas0_1.2.0-0ubuntu1.1_amd64.deb ...
+Unpacking libaugeas0 (1.2.0-0ubuntu1.1) ...
+Selecting previously unselected package ruby-augeas.
+Preparing to unpack .../ruby-augeas_0.5.0-2_amd64.deb ...
+Unpacking ruby-augeas (0.5.0-2) ...
+Selecting previously unselected package libaugeas-ruby.
+Preparing to unpack .../libaugeas-ruby_0.5.0-2_all.deb ...
+Unpacking libaugeas-ruby (0.5.0-2) ...
+Selecting previously unselected package ruby-shadow.
+Preparing to unpack .../ruby-shadow_2.2.0-1_amd64.deb ...
+Unpacking ruby-shadow (2.2.0-1) ...
+Selecting previously unselected package ruby-json.
+Preparing to unpack .../ruby-json_1.8.0-1build1_amd64.deb ...
+Unpacking ruby-json (1.8.0-1build1) ...
+Selecting previously unselected package hiera.
+Preparing to unpack .../hiera_1.3.4-1puppetlabs1_all.deb ...
+Unpacking hiera (1.3.4-1puppetlabs1) ...
+Selecting previously unselected package puppet-common.
+Preparing to unpack .../puppet-common_3.8.2-1puppetlabs1_all.deb ...
+Unpacking puppet-common (3.8.2-1puppetlabs1) ...
+Selecting previously unselected package puppetmaster-common.
+Preparing to unpack .../puppetmaster-common_3.8.2-1puppetlabs1_all.deb ...
+Unpacking puppetmaster-common (3.8.2-1puppetlabs1) ...
+Selecting previously unselected package puppetmaster.
+Preparing to unpack .../puppetmaster_3.8.2-1puppetlabs1_all.deb ...
+Unpacking puppetmaster (3.8.2-1puppetlabs1) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+Setting up libpci3:amd64 (1:3.2.1-1ubuntu5) ...
+Setting up libxml2:amd64 (2.9.1+dfsg1-3ubuntu4.4) ...
+Setting up sgml-base (1.26+nmu4ubuntu1) ...
+Setting up libyaml-0-2:amd64 (0.1.4-3ubuntu3.1) ...
+Setting up dmidecode (2.12-2) ...
+Setting up pciutils (1:3.2.1-1ubuntu5) ...
+Setting up xml-core (0.13+nmu2) ...
+Setting up augeas-lenses (1.2.0-0ubuntu1.1) ...
+Setting up debconf-utils (1.5.51ubuntu2) ...
+Setting up virt-what (1.13-1) ...
+Setting up libaugeas0 (1.2.0-0ubuntu1.1) ...
+Setting up ruby (1:1.9.3.4) ...
+Setting up facter (2.4.4-1puppetlabs1) ...
+Setting up ruby1.9.1 (1.9.3.484-2ubuntu1.2) ...
+Setting up libruby1.9.1 (1.9.3.484-2ubuntu1.2) ...
+Setting up ruby-augeas (0.5.0-2) ...
+Setting up libaugeas-ruby (0.5.0-2) ...
+Setting up ruby-shadow (2.2.0-1) ...
+Setting up ruby-json (1.8.0-1build1) ...
+Setting up hiera (1.3.4-1puppetlabs1) ...
+Setting up puppet-common (3.8.2-1puppetlabs1) ...
+Setting up puppetmaster-common (3.8.2-1puppetlabs1) ...
+invoke-rc.d: policy-rc.d denied execution of start.
+Processing triggers for ureadahead (0.100.0-16) ...
+Setting up puppetmaster (3.8.2-1puppetlabs1) ...
+invoke-rc.d: policy-rc.d denied execution of start.
+Processing triggers for libc-bin (2.19-0ubuntu6.6) ...
+Processing triggers for sgml-base (1.26+nmu4ubuntu1) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+
+
+
+root@puppetmaster:/tmp# puppet -V
+3.8.2
+
+
+
+root@puppetmaster:/tmp#
+We have puppet version as 3.7.1. Now we need to lock the puppet version update as this will hamper the configurations while updating the puppet. It will be done by editing the file as follows:
+nano /etc/apt/preferences.d/00-puppet.pref
+
+Add the entries in the newly created file as:
+# /etc/apt/preferences.d/00-puppet.pref
+Package: puppet puppet-common puppetmaster-passenger
+Pin: version 3.8*
+Pin-Priority: 501
+It will not update the Puppet while running updates in the system.
+Next we will change the configuration file as follows:
+nano /etc/puppet/puppet.conf
+
+[main]
+logdir=/var/log/puppet
+vardir=/var/lib/puppet
+ssldir=/var/lib/puppet/ssl
+rundir=/var/run/puppet
+factpath=$vardir/lib/facter
+#templatedir=$confdir/templates
+
+[master]
+# These are needed when the puppetmaster is run by passenger
+# and can safely be removed if webrick is used.
+ssl_client_header = SSL_CLIENT_S_DN
+ssl_client_verify_header = SSL_CLIENT_VERIFY
+Just comment the line templatedir=$confdir/templates and save the file.
+Now we will stop and then start the services:
+service puppetmaster stop
+service puppetmaster start
+
+
+
+CLIENT
+
+root@puppetclient:/# cd /tmp/
+root@puppetclient:/tmp# wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
+
+root@puppetclient:/tmp# dpkg -i puppetlabs-release-trusty.deb
+Selecting previously unselected package puppetlabs-release.
+(Reading database ... 11847 files and directories currently installed.)
+Preparing to unpack puppetlabs-release-trusty.deb ...
+Unpacking puppetlabs-release (1.0-11) ...
+Setting up puppetlabs-release (1.0-11) ...
+root@puppetclient:/tmp# apt-get update
+
+
+
+root@puppetclient:/tmp# apt-get install puppet
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following extra packages will be installed:
+augeas-lenses debconf-utils dmidecode facter hiera libaugeas-ruby libaugeas0
+libpci3 libruby1.9.1 libxml2 libyaml-0-2 pciutils puppet-common ruby
+ruby-augeas ruby-json ruby-shadow ruby1.9.1 sgml-base virt-what xml-core
+Suggested packages:
+augeas-doc augeas-tools puppet-el vim-puppet ruby-selinux libselinux-ruby1.8
+librrd-ruby1.9.1 librrd-ruby1.8 ri ruby-dev ruby1.9.1-examples ri1.9.1
+graphviz ruby1.9.1-dev ruby-switch sgml-base-doc debhelper
+Recommended packages:
+rdoc
+The following NEW packages will be installed:
+augeas-lenses debconf-utils dmidecode facter hiera libaugeas-ruby libaugeas0
+libpci3 libruby1.9.1 libxml2 libyaml-0-2 pciutils puppet puppet-common ruby
+ruby-augeas ruby-json ruby-shadow ruby1.9.1 sgml-base virt-what xml-core
+0 upgraded, 22 newly installed, 0 to remove and 23 not upgraded.
+Need to get 5553 kB of archives.
+After this operation, 27.5 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://archive.ubuntu.com/ubuntu/ trusty/main libpci3 amd64 1:3.2.1-1ubuntu5 [26.1 kB]
+Get:2 http://apt.puppetlabs.com/ trusty/main facter all 2.4.4-1puppetlabs1 [73.3 kB]
+Get:3 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libxml2 amd64 2.9.1+dfsg1-3ubuntu4.4 [570 kB]
+Get:4 http://apt.puppetlabs.com/ trusty/main hiera all 1.3.4-1puppetlabs1 [12.0 kB]
+Get:5 http://apt.puppetlabs.com/ trusty/main puppet-common all 3.8.2-1puppetlabs1 [1268 kB]
+Get:6 http://archive.ubuntu.com/ubuntu/ trusty/main sgml-base all 1.26+nmu4ubuntu1 [12.5 kB]
+Get:7 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libyaml-0-2 amd64 0.1.4-3ubuntu3.1 [48.1 kB]
+Get:8 http://archive.ubuntu.com/ubuntu/ trusty/main dmidecode amd64 2.12-2 [45.9 kB]
+Get:9 http://archive.ubuntu.com/ubuntu/ trusty/main pciutils amd64 1:3.2.1-1ubuntu5 [269 kB]
+Get:10 http://archive.ubuntu.com/ubuntu/ trusty/main xml-core all 0.13+nmu2 [23.3 kB]
+Get:11 http://archive.ubuntu.com/ubuntu/ trusty-updates/main augeas-lenses all 1.2.0-0ubuntu1.1 [230 kB]
+Get:12 http://apt.puppetlabs.com/ trusty/main puppet all 3.8.2-1puppetlabs1 [9312 B]
+Get:13 http://archive.ubuntu.com/ubuntu/ trusty/main debconf-utils all 1.5.51ubuntu2 [57.4 kB]
+Get:14 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libruby1.9.1 amd64 1.9.3.484-2ubuntu1.2 [2645 kB]
+Get:15 http://archive.ubuntu.com/ubuntu/ trusty-updates/main ruby1.9.1 amd64 1.9.3.484-2ubuntu1.2 [35.6 kB]
+Get:16 http://archive.ubuntu.com/ubuntu/ trusty/main ruby all 1:1.9.3.4 [5334 B]
+Get:17 http://archive.ubuntu.com/ubuntu/ trusty/universe virt-what amd64 1.13-1 [13.6 kB]
+Get:18 http://archive.ubuntu.com/ubuntu/ trusty-updates/main libaugeas0 amd64 1.2.0-0ubuntu1.1 [135 kB]
+Get:19 http://archive.ubuntu.com/ubuntu/ trusty/main ruby-augeas amd64 0.5.0-2 [13.2 kB]
+Get:20 http://archive.ubuntu.com/ubuntu/ trusty/universe libaugeas-ruby all 0.5.0-2 [1394 B]
+Get:21 http://archive.ubuntu.com/ubuntu/ trusty/main ruby-shadow amd64 2.2.0-1 [11.2 kB]
+Get:22 http://archive.ubuntu.com/ubuntu/ trusty/main ruby-json amd64 1.8.0-1build1 [49.0 kB]
+Fetched 5553 kB in 44s (124 kB/s)                                              
+Selecting previously unselected package libpci3:amd64.
+(Reading database ... 11854 files and directories currently installed.)
+Preparing to unpack .../libpci3_1%3a3.2.1-1ubuntu5_amd64.deb ...
+Unpacking libpci3:amd64 (1:3.2.1-1ubuntu5) ...
+Selecting previously unselected package libxml2:amd64.
+Preparing to unpack .../libxml2_2.9.1+dfsg1-3ubuntu4.4_amd64.deb ...
+Unpacking libxml2:amd64 (2.9.1+dfsg1-3ubuntu4.4) ...
+Selecting previously unselected package sgml-base.
+Preparing to unpack .../sgml-base_1.26+nmu4ubuntu1_all.deb ...
+Unpacking sgml-base (1.26+nmu4ubuntu1) ...
+Selecting previously unselected package libyaml-0-2:amd64.
+Preparing to unpack .../libyaml-0-2_0.1.4-3ubuntu3.1_amd64.deb ...
+Unpacking libyaml-0-2:amd64 (0.1.4-3ubuntu3.1) ...
+Selecting previously unselected package dmidecode.
+Preparing to unpack .../dmidecode_2.12-2_amd64.deb ...
+Unpacking dmidecode (2.12-2) ...
+Selecting previously unselected package pciutils.
+Preparing to unpack .../pciutils_1%3a3.2.1-1ubuntu5_amd64.deb ...
+Unpacking pciutils (1:3.2.1-1ubuntu5) ...
+Selecting previously unselected package xml-core.
+Preparing to unpack .../xml-core_0.13+nmu2_all.deb ...
+Unpacking xml-core (0.13+nmu2) ...
+Selecting previously unselected package augeas-lenses.
+Preparing to unpack .../augeas-lenses_1.2.0-0ubuntu1.1_all.deb ...
+Unpacking augeas-lenses (1.2.0-0ubuntu1.1) ...
+Selecting previously unselected package debconf-utils.
+Preparing to unpack .../debconf-utils_1.5.51ubuntu2_all.deb ...
+Unpacking debconf-utils (1.5.51ubuntu2) ...
+Selecting previously unselected package libruby1.9.1.
+Preparing to unpack .../libruby1.9.1_1.9.3.484-2ubuntu1.2_amd64.deb ...
+Unpacking libruby1.9.1 (1.9.3.484-2ubuntu1.2) ...
+Selecting previously unselected package ruby1.9.1.
+Preparing to unpack .../ruby1.9.1_1.9.3.484-2ubuntu1.2_amd64.deb ...
+Unpacking ruby1.9.1 (1.9.3.484-2ubuntu1.2) ...
+Selecting previously unselected package ruby.
+Preparing to unpack .../ruby_1%3a1.9.3.4_all.deb ...
+Unpacking ruby (1:1.9.3.4) ...
+Selecting previously unselected package virt-what.
+Preparing to unpack .../virt-what_1.13-1_amd64.deb ...
+Unpacking virt-what (1.13-1) ...
+Selecting previously unselected package facter.
+Preparing to unpack .../facter_2.4.4-1puppetlabs1_all.deb ...
+Unpacking facter (2.4.4-1puppetlabs1) ...
+Selecting previously unselected package libaugeas0.
+Preparing to unpack .../libaugeas0_1.2.0-0ubuntu1.1_amd64.deb ...
+Unpacking libaugeas0 (1.2.0-0ubuntu1.1) ...
+Selecting previously unselected package ruby-augeas.
+Preparing to unpack .../ruby-augeas_0.5.0-2_amd64.deb ...
+Unpacking ruby-augeas (0.5.0-2) ...
+Selecting previously unselected package libaugeas-ruby.
+Preparing to unpack .../libaugeas-ruby_0.5.0-2_all.deb ...
+Unpacking libaugeas-ruby (0.5.0-2) ...
+Selecting previously unselected package ruby-shadow.
+Preparing to unpack .../ruby-shadow_2.2.0-1_amd64.deb ...
+Unpacking ruby-shadow (2.2.0-1) ...
+Selecting previously unselected package ruby-json.
+Preparing to unpack .../ruby-json_1.8.0-1build1_amd64.deb ...
+Unpacking ruby-json (1.8.0-1build1) ...
+Selecting previously unselected package hiera.
+Preparing to unpack .../hiera_1.3.4-1puppetlabs1_all.deb ...
+Unpacking hiera (1.3.4-1puppetlabs1) ...
+Selecting previously unselected package puppet-common.
+Preparing to unpack .../puppet-common_3.8.2-1puppetlabs1_all.deb ...
+Unpacking puppet-common (3.8.2-1puppetlabs1) ...
+Selecting previously unselected package puppet.
+Preparing to unpack .../puppet_3.8.2-1puppetlabs1_all.deb ...
+Unpacking puppet (3.8.2-1puppetlabs1) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+Setting up libpci3:amd64 (1:3.2.1-1ubuntu5) ...
+Setting up libxml2:amd64 (2.9.1+dfsg1-3ubuntu4.4) ...
+Setting up sgml-base (1.26+nmu4ubuntu1) ...
+Setting up libyaml-0-2:amd64 (0.1.4-3ubuntu3.1) ...
+Setting up dmidecode (2.12-2) ...
+Setting up pciutils (1:3.2.1-1ubuntu5) ...
+Setting up xml-core (0.13+nmu2) ...
+Setting up augeas-lenses (1.2.0-0ubuntu1.1) ...
+Setting up debconf-utils (1.5.51ubuntu2) ...
+Setting up virt-what (1.13-1) ...
+Setting up libaugeas0 (1.2.0-0ubuntu1.1) ...
+Setting up ruby (1:1.9.3.4) ...
+Setting up facter (2.4.4-1puppetlabs1) ...
+Setting up ruby1.9.1 (1.9.3.484-2ubuntu1.2) ...
+Setting up libruby1.9.1 (1.9.3.484-2ubuntu1.2) ...
+Setting up ruby-augeas (0.5.0-2) ...
+Setting up libaugeas-ruby (0.5.0-2) ...
+Setting up ruby-shadow (2.2.0-1) ...
+Setting up ruby-json (1.8.0-1build1) ...
+Setting up hiera (1.3.4-1puppetlabs1) ...
+Setting up puppet-common (3.8.2-1puppetlabs1) ...
+Setting up puppet (3.8.2-1puppetlabs1) ...
+invoke-rc.d: policy-rc.d denied execution of start.
+Processing triggers for libc-bin (2.19-0ubuntu6.6) ...
+Processing triggers for sgml-base (1.26+nmu4ubuntu1) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+root@puppetclient:/tmp# puppet -V
+3.8.2
+root@puppetclient:/tmp# vim  /etc/apt/preferences.d/00-puppet.pref
+# /etc/apt/preferences.d/00-puppet.pref
+Package: puppet puppet-common puppetmaster-passenger
+Pin: version 3.8*
+Pin-Priority: 501
+
+vim /etc/puppet/puppet.conf
+
+[main]
+logdir=/var/log/puppet
+vardir=/var/lib/puppet
+ssldir=/var/lib/puppet/ssl
+rundir=/var/run/puppet
+factpath=$vardir/lib/facter
+#templatedir=$confdir/templates
+
+#[master]
+## These are needed when the puppetmaster is run by passenger
+## and can safely be removed if webrick is used.
+#ssl_client_header = SSL_CLIENT_S_DN
+#ssl_client_verify_header = SSL_CLIENT_VERIFY
+
+[agent]
+server = 172.17.0.10
+
+vim /etc/default/puppet
+# Defaults for puppet - sourced by /etc/init.d/puppet
+
+# Enable puppet agent service?
+# Setting this to "yes" allows the puppet agent service to run.
+# Setting this to "no" keeps the puppet agent service from running.
+START=yes
+
+# Startup options
+DAEMON_OPTS=""
+
+
+
+
+=============================
+
+
+
+Created docker image
+
+Abhi:~ abhinoc$ docker commit -m "ocker commit c48524d738e8 ubuntu_abhi_docker
+Abhi:~ abhinoc$ docker commit c48524d738e8 ubuntu_abhi_docker
+65227077ebf62193ea0993e6b039dd4651ae42f9cc83f7c05dac5897a4b2ae93
+Abhi:~ abhinoc$ docker images
+REPOSITORY           TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+ubuntu_abhi_docker   latest              65227077ebf6        11 seconds ago      242.7 MB
+nginx                latest              6886fb5a9b8d        6 weeks ago         132.9 MB
+ubuntu               latest              d2a0ecffe6fa        7 weeks ago         188.4 MB
+hello-world          latest    
+
+
+
+docker-project.txt
+Abhi:docker abhinoc$ history | grep git
+   46  git clone git@github.com:abhinoc/docker.git
+   47  cat ~/.ssh/git_rsa.pub 
+   48  git clone git@github.com:abhinoc/docker.git
+   50  git clone git@github.com:abhinoc/docker.git
+   54  git add docker-project.txt 
+   55  git config user.name "Abhishek"
+   69  git config user.name "Abhishek"
+   71  git clone git@github.com:abhinoc/docker.git
+   72  ssh -T git@github.com
+   75  rm -rfv git_rsa*
+   92  ssh -T git@github.com
+   97  git clone git@github.com:abhinoc/docker.git
+  100  git sttaus
+  101  git status
+  103  git add .
+  104  git status
+  105  git commit "My documents"
+  106  git commit -m "My documents"
+  107  git push orgin master
+  108  git push origin master
+  109  git status
+  110  git push origin master
+  111  git status
+  112  git status
+  113  git pull
+  116  git push
+  117  git commit -m "tets"
+  118  git add .
+  119  git commit -m "tets"
+  120  git push
+  438  git clone git@github.com:mpdehaan/puppet-tomcat-demo.git
+  476  git status
+  513  cat docker-project.txt  | grep git
+  515  cd .git/
+  533  git staus
+  534  git status
+  536  history | grep git
+Abhi:docker abhinoc$ 
+
+
+git config --global user.name "YOUR NAME"
+
+Abhi:docker abhinoc$ git config --global user.name "Abhishek Alevoor"
+Abhi:docker abhinoc$ 
+
+git config --global user.email "YOUR EMAIL ADDRESS"
+
+git config --global user.email “abhinoc@gmail.com”
+
+
+
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+ssh-keygen -t rsa -b 4096 -C “abhinoc@gmail.com"
+
+Abhi:docker abhinoc$ ssh-keygen -t rsa -b 4096 -C "abhinoc@gmail.com"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/Users/abhinoc/.ssh/id_rsa): /Users/abhinoc/.ssh/Abhi_rsa
+/Users/abhinoc/.ssh/Abhi_rsa already exists.
+Overwrite (y/n)? y
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /Users/abhinoc/.ssh/Abhi_rsa.
+Your public key has been saved in /Users/abhinoc/.ssh/Abhi_rsa.pub.
+The key fingerprint is:
+f3:08:8b:4f:41:0c:25:97:9a:bd:4b:f6:50:19:8b:f4 abhinoc@gmail.com
+The key's randomart image is:
++--[ RSA 4096]----+
+|    o.o.         |
+|     =o .        |
+|     =oo +       |
+|    o.o E        |
+|      ooS        |
+|     .=+ +       |
+|    .oo+. .      |
+|     o. .        |
+|      .          |
++-----------------+
+
+
+
+
+ssh-add ~/.ssh/id_rsa
+
+Abhi:docker abhinoc$ ssh-add ~/.ssh/Abhi_rsa
+Identity added: /Users/abhinoc/.ssh/Abhi_rsa (/Users/abhinoc/.ssh/Abhi_rsa)
+Abhi:docker abhinoc$ 
+
+
+Abhi:docker abhinoc$ pbcopy < ~/.ssh/Abhi_rsa.pub 
+Abhi:docker abhinoc$ 
+
+Add this key to git hub account
+
+
+
