@@ -54,4 +54,312 @@ _____________________________________________
 _____________________________________________
 
 
+root@webserver100:~# sudo apt-get install tomcat6
+sudo: unable to resolve host webserver100.com
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following extra packages will be installed:
+  authbind ca-certificates-java default-jre-headless icedtea-6-jre-cacao icedtea-6-jre-jamvm java-common libavahi-client3 libavahi-common-data libavahi-common3
+  libcommons-collections3-java libcommons-dbcp-java libcommons-pool-java libcups2 libecj-java liblcms2-2 libnspr4 libnss3 libnss3-1d libpcsclite1 libservlet2.5-java
+  libtomcat6-java openjdk-6-jre-headless openjdk-6-jre-lib tomcat6-common tzdata-java
+Suggested packages:
+  default-jre equivs libcommons-collections3-java-doc libgeronimo-jta-1.0.1b-spec-java cups-common ecj ant libecj-java-gcj liblcms2-utils pcscd libnss-mdns sun-java6-fonts
+  ttf-dejavu-extra fonts-ipafont-gothic fonts-ipafont-mincho ttf-wqy-microhei ttf-wqy-zenhei ttf-indic-fonts-core ttf-telugu-fonts ttf-oriya-fonts ttf-kannada-fonts
+  ttf-bengali-fonts tomcat6-docs tomcat6-admin tomcat6-examples tomcat6-user libtcnative-1
+The following NEW packages will be installed:
+  authbind ca-certificates-java default-jre-headless icedtea-6-jre-cacao icedtea-6-jre-jamvm java-common libavahi-client3 libavahi-common-data libavahi-common3
+  libcommons-collections3-java libcommons-dbcp-java libcommons-pool-java libcups2 libecj-java liblcms2-2 libnspr4 libnss3 libnss3-1d libpcsclite1 libservlet2.5-java
+  libtomcat6-java openjdk-6-jre-headless openjdk-6-jre-lib tomcat6 tomcat6-common tzdata-java
+0 upgraded, 26 newly installed, 0 to remove and 2 not upgraded.
+Need to get 606 kB/50.1 MB of archives.
+After this operation, 75.5 MB of additional disk space will be used.
+Do you want to continue [Y/n]? y
+Get:1 http://us.archive.ubuntu.com/ubuntu/ precise/main default-jre-headless i386 1:1.6-43ubuntu2 [3,328 B]
+Get:2 http://us.archive.ubuntu.com/ubuntu/ precise/main libcommons-collections3-java all 3.2.1-5 [603 kB]
+Fetched 606 kB in 4s (133 kB/s)                       
+Preconfiguring packages ...
+Selecting previously unselected package libavahi-common-data.
+(Reading database ... 29611 files and directories currently installed.)
+Unpacking libavahi-common-data (from .../libavahi-common-data_0.6.30-5ubuntu2.1_i386.deb) ...
+Selecting previously unselected package libavahi-common3.
+Unpacking libavahi-common3 (from .../libavahi-common3_0.6.30-5ubuntu2.1_i386.deb) ...
+Selecting previously unselected package libavahi-client3.
+Unpacking libavahi-client3 (from .../libavahi-client3_0.6.30-5ubuntu2.1_i386.deb) ...
+Selecting previously unselected package libcups2.
+Unpacking libcups2 (from .../libcups2_1.5.3-0ubuntu8.7_i386.deb) ...
+Selecting previously unselected package liblcms2-2.
+Unpacking liblcms2-2 (from .../liblcms2-2_2.2+git20110628-2ubuntu3.1_i386.deb) ...
+Selecting previously unselected package libnspr4.
+Unpacking libnspr4 (from .../libnspr4_4.10.7-0ubuntu0.12.04.1_i386.deb) ...
+Selecting previously unselected package libnss3.
+Unpacking libnss3 (from .../libnss3_3.19.2-0ubuntu0.12.04.1_i386.deb) ...
+Selecting previously unselected package libpcsclite1.
+Unpacking libpcsclite1 (from .../libpcsclite1_1.7.4-2ubuntu2_i386.deb) ...
+Selecting previously unselected package openjdk-6-jre-lib.
+Unpacking openjdk-6-jre-lib (from .../openjdk-6-jre-lib_6b36-1.13.8-0ubuntu1~12.04_all.deb) ...
+Selecting previously unselected package java-common.
+Unpacking java-common (from .../java-common_0.43ubuntu2_all.deb) ...
+Selecting previously unselected package default-jre-headless.
+Unpacking default-jre-headless (from .../default-jre-headless_1%3a1.6-43ubuntu2_i386.deb) ...
+Selecting previously unselected package libnss3-1d.
+Unpacking libnss3-1d (from .../libnss3-1d_3.19.2-0ubuntu0.12.04.1_i386.deb) ...
+Selecting previously unselected package ca-certificates-java.
+Unpacking ca-certificates-java (from .../ca-certificates-java_20110912ubuntu6_all.deb) ...
+Selecting previously unselected package tzdata-java.
+Unpacking tzdata-java (from .../tzdata-java_2015f-0ubuntu0.12.04_all.deb) ...
+Selecting previously unselected package openjdk-6-jre-headless.
+Unpacking openjdk-6-jre-headless (from .../openjdk-6-jre-headless_6b36-1.13.8-0ubuntu1~12.04_i386.deb) ...
+Selecting previously unselected package libcommons-collections3-java.
+Unpacking libcommons-collections3-java (from .../libcommons-collections3-java_3.2.1-5_all.deb) ...
+Selecting previously unselected package libcommons-pool-java.
+Unpacking libcommons-pool-java (from .../libcommons-pool-java_1.5.6-1_all.deb) ...
+Selecting previously unselected package libcommons-dbcp-java.
+Unpacking libcommons-dbcp-java (from .../libcommons-dbcp-java_1.4-1ubuntu1_all.deb) ...
+Selecting previously unselected package libecj-java.
+Unpacking libecj-java (from .../libecj-java_3.5.1-3_all.deb) ...
+Selecting previously unselected package libservlet2.5-java.
+Unpacking libservlet2.5-java (from .../libservlet2.5-java_6.0.35-1ubuntu3.6_all.deb) ...
+Selecting previously unselected package libtomcat6-java.
+Unpacking libtomcat6-java (from .../libtomcat6-java_6.0.35-1ubuntu3.6_all.deb) ...
+Selecting previously unselected package tomcat6-common.
+Unpacking tomcat6-common (from .../tomcat6-common_6.0.35-1ubuntu3.6_all.deb) ...
+Selecting previously unselected package tomcat6.
+Unpacking tomcat6 (from .../tomcat6_6.0.35-1ubuntu3.6_all.deb) ...
+Selecting previously unselected package authbind.
+Unpacking authbind (from .../authbind_1.2.0build3_i386.deb) ...
+Selecting previously unselected package icedtea-6-jre-cacao.
+Unpacking icedtea-6-jre-cacao (from .../icedtea-6-jre-cacao_6b36-1.13.8-0ubuntu1~12.04_i386.deb) ...
+Selecting previously unselected package icedtea-6-jre-jamvm.
+Unpacking icedtea-6-jre-jamvm (from .../icedtea-6-jre-jamvm_6b36-1.13.8-0ubuntu1~12.04_i386.deb) ...
+Processing triggers for man-db ...
+Processing triggers for ureadahead ...
+ureadahead will be reprofiled on next reboot
+Setting up libavahi-common-data (0.6.30-5ubuntu2.1) ...
+Setting up libavahi-common3 (0.6.30-5ubuntu2.1) ...
+Setting up libavahi-client3 (0.6.30-5ubuntu2.1) ...
+Setting up libcups2 (1.5.3-0ubuntu8.7) ...
+Setting up liblcms2-2 (2.2+git20110628-2ubuntu3.1) ...
+Setting up libnspr4 (4.10.7-0ubuntu0.12.04.1) ...
+Setting up libnss3 (3.19.2-0ubuntu0.12.04.1) ...
+Setting up libpcsclite1 (1.7.4-2ubuntu2) ...
+Setting up java-common (0.43ubuntu2) ...
+Setting up tzdata-java (2015f-0ubuntu0.12.04) ...
+Setting up libnss3-1d (3.19.2-0ubuntu0.12.04.1) ...
+Setting up libcommons-collections3-java (3.2.1-5) ...
+Setting up libcommons-pool-java (1.5.6-1) ...
+Setting up libecj-java (3.5.1-3) ...
+Setting up libservlet2.5-java (6.0.35-1ubuntu3.6) ...
+Setting up authbind (1.2.0build3) ...
+Setting up openjdk-6-jre-lib (6b36-1.13.8-0ubuntu1~12.04) ...
+Setting up openjdk-6-jre-headless (6b36-1.13.8-0ubuntu1~12.04) ...
+update-alternatives: using /usr/lib/jvm/java-6-openjdk-i386/jre/bin/java to provide /usr/bin/java (java) in auto mode.
+update-alternatives: using /usr/lib/jvm/java-6-openjdk-i386/jre/bin/keytool to provide /usr/bin/keytool (keytool) in auto mode.
+update-alternatives: using /usr/lib/jvm/java-6-openjdk-i386/jre/bin/pack200 to provide /usr/bin/pack200 (pack200) in auto mode.
+update-alternatives: using /usr/lib/jvm/java-6-openjdk-i386/jre/bin/rmid to provide /usr/bin/rmid (rmid) in auto mode.
+update-alternatives: using /usr/lib/jvm/java-6-openjdk-i386/jre/bin/rmiregistry to provide /usr/bin/rmiregistry (rmiregistry) in auto mode.
+update-alternatives: using /usr/lib/jvm/java-6-openjdk-i386/jre/bin/unpack200 to provide /usr/bin/unpack200 (unpack200) in auto mode.
+update-alternatives: using /usr/lib/jvm/java-6-openjdk-i386/jre/bin/orbd to provide /usr/bin/orbd (orbd) in auto mode.
+update-alternatives: using /usr/lib/jvm/java-6-openjdk-i386/jre/bin/servertool to provide /usr/bin/servertool (servertool) in auto mode.
+update-alternatives: using /usr/lib/jvm/java-6-openjdk-i386/jre/bin/tnameserv to provide /usr/bin/tnameserv (tnameserv) in auto mode.
+update-alternatives: using /usr/lib/jvm/java-6-openjdk-i386/jre/lib/jexec to provide /usr/bin/jexec (jexec) in auto mode.
+Setting up default-jre-headless (1:1.6-43ubuntu2) ...
+Setting up libcommons-dbcp-java (1.4-1ubuntu1) ...
+Setting up libtomcat6-java (6.0.35-1ubuntu3.6) ...
+Setting up tomcat6-common (6.0.35-1ubuntu3.6) ...
+Setting up tomcat6 (6.0.35-1ubuntu3.6) ...
+
+Creating config file /etc/default/tomcat6 with new version
+Adding system user `tomcat6' (UID 106) ...
+Adding new user `tomcat6' (UID 106) with group `tomcat6' ...
+Not creating home directory `/usr/share/tomcat6'.
+ * Starting Tomcat servlet engine tomcat6                                                                                                                                     [ OK ] 
+Setting up icedtea-6-jre-cacao (6b36-1.13.8-0ubuntu1~12.04) ...
+Setting up icedtea-6-jre-jamvm (6b36-1.13.8-0ubuntu1~12.04) ...
+Setting up ca-certificates-java (20110912ubuntu6) ...
+Adding debian:TeliaSonera_Root_CA_v1.pem
+Adding debian:Digital_Signature_Trust_Co._Global_CA_1.pem
+Adding debian:QuoVadis_Root_CA_3.pem
+Adding debian:spi-cacert-2008.pem
+Adding debian:NetLock_Qualified_=Class_QA=_Root.pem
+Adding debian:Equifax_Secure_eBusiness_CA_1.pem
+Adding debian:TURKTRUST_Certificate_Services_Provider_Root_2007.pem
+Adding debian:WoSign.pem
+Adding debian:Taiwan_GRCA.pem
+Adding debian:IGC_A.pem
+Adding debian:QuoVadis_Root_CA_3_G3.pem
+Adding debian:Buypass_Class_2_Root_CA.pem
+Adding debian:Digital_Signature_Trust_Co._Global_CA_3.pem
+Adding debian:SwissSign_Gold_CA_-_G2.pem
+Adding debian:Cybertrust_Global_Root.pem
+Adding debian:COMODO_ECC_Certification_Authority.pem
+Adding debian:Verisign_Class_3_Public_Primary_Certification_Authority_-_G2.pem
+Adding debian:GeoTrust_Global_CA.pem
+Adding debian:VeriSign_Universal_Root_Certification_Authority.pem
+Adding debian:Verisign_Class_3_Public_Primary_Certification_Authority.pem
+Adding debian:Verisign_Class_1_Public_Primary_Certification_Authority_-_G3.pem
+Adding debian:T-TeleSec_GlobalRoot_Class_2.pem
+Adding debian:Buypass_Class_3_CA_1.pem
+Adding debian:Certplus_Class_2_Primary_CA.pem
+Adding debian:Root_CA_Generalitat_Valenciana.pem
+Adding debian:D-TRUST_Root_Class_3_CA_2_EV_2009.pem
+Adding debian:TC_TrustCenter_Class_3_CA_II.pem
+Adding debian:QuoVadis_Root_CA_2_G3.pem
+Adding debian:WellsSecure_Public_Root_Certificate_Authority.pem
+Adding debian:Entrust_Root_Certification_Authority.pem
+Adding debian:Sonera_Class_1_Root_CA.pem
+Adding debian:DigiCert_Assured_ID_Root_G3.pem
+Adding debian:ACCVRAIZ1.pem
+Adding debian:Go_Daddy_Class_2_CA.pem
+Adding debian:Verisign_Class_2_Public_Primary_Certification_Authority_-_G2.pem
+Adding debian:GlobalSign_Root_CA_-_R2.pem
+Adding debian:Hongkong_Post_Root_CA_1.pem
+Adding debian:GeoTrust_Universal_CA_2.pem
+Adding debian:NetLock_Business_=Class_B=_Root.pem
+Adding debian:certSIGN_ROOT_CA.pem
+Adding debian:ACEDICOM_Root.pem
+Adding debian:SwissSign_Platinum_CA_-_G2.pem
+Adding debian:ApplicationCA_-_Japanese_Government.pem
+Adding debian:Deutsche_Telekom_Root_CA_2.pem
+Adding debian:Verisign_Class_4_Public_Primary_Certification_Authority_-_G3.pem
+Adding debian:SwissSign_Silver_CA_-_G2.pem
+Adding debian:Hellenic_Academic_and_Research_Institutions_RootCA_2011.pem
+Adding debian:Entrust.net_Premium_2048_Secure_Server_CA.pem
+Adding debian:A-Trust-nQual-03.pem
+Adding debian:TWCA_Global_Root_CA.pem
+Adding debian:Baltimore_CyberTrust_Root.pem
+Adding debian:Actalis_Authentication_Root_CA.pem
+Adding debian:thawte_Primary_Root_CA.pem
+Adding debian:Swisscom_Root_CA_2.pem
+Adding debian:Starfield_Root_Certificate_Authority_-_G2.pem
+Adding debian:GlobalSign_Root_CA_-_R3.pem
+Adding debian:StartCom_Certification_Authority_G2.pem
+Adding debian:DigiCert_Global_Root_G2.pem
+Adding debian:EC-ACC.pem
+Adding debian:Security_Communication_Root_CA.pem
+Adding debian:Visa_eCommerce_Root.pem
+Adding debian:Chambers_of_Commerce_Root_-_2008.pem
+Adding debian:Verisign_Class_2_Public_Primary_Certification_Authority_-_G3.pem
+Adding debian:TÜBİTAK_UEKAE_Kök_Sertifika_Hizmet_Sağlayıcısı_-_Sürüm_3.pem
+Adding debian:Swisscom_Root_CA_1.pem
+Adding debian:RSA_Security_2048_v3.pem
+Adding debian:DigiCert_Assured_ID_Root_CA.pem
+Adding debian:Camerfirma_Chambers_of_Commerce_Root.pem
+Adding debian:SecureSign_RootCA11.pem
+Adding debian:QuoVadis_Root_CA.pem
+Adding debian:CA_Disig_Root_R1.pem
+Adding debian:Security_Communication_RootCA2.pem
+Adding debian:Security_Communication_EV_RootCA1.pem
+Adding debian:NetLock_Arany_=Class_Gold=_Főtanúsítvány.pem
+Adding debian:China_Internet_Network_Information_Center_EV_Certificates_Root.pem
+Adding debian:GeoTrust_Primary_Certification_Authority_-_G2.pem
+Adding debian:Certum_Trusted_Network_CA.pem
+Adding debian:AddTrust_Low-Value_Services_Root.pem
+Adding debian:UTN_USERFirst_Email_Root_CA.pem
+Adding debian:Swisscom_Root_EV_CA_2.pem
+Adding debian:Thawte_Server_CA.pem
+Adding debian:DigiCert_Assured_ID_Root_G2.pem
+Adding debian:Network_Solutions_Certificate_Authority.pem
+Adding debian:Sonera_Class_2_Root_CA.pem
+Adding debian:SecureTrust_CA.pem
+Adding debian:Verisign_Class_3_Public_Primary_Certification_Authority_2.pem
+Adding debian:E-Guven_Kok_Elektronik_Sertifika_Hizmet_Saglayicisi.pem
+Adding debian:Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068.pem
+Adding debian:TURKTRUST_Certificate_Services_Provider_Root_2.pem
+Adding debian:TC_TrustCenter_Universal_CA_I.pem
+Adding debian:S-TRUST_Authentication_and_Encryption_Root_CA_2005_PN.pem
+Adding debian:Comodo_AAA_Services_root.pem
+Adding debian:Secure_Global_CA.pem
+Adding debian:Staat_der_Nederlanden_Root_CA_-_G2.pem
+Adding debian:Microsec_e-Szigno_Root_CA.pem
+Adding debian:Certigna.pem
+Adding debian:DigiCert_Global_Root_CA.pem
+Adding debian:Buypass_Class_2_CA_1.pem
+Adding debian:AffirmTrust_Premium_ECC.pem
+Adding debian:Verisign_Class_1_Public_Primary_Certification_Authority_-_G2.pem
+Adding debian:XRamp_Global_CA_Root.pem
+Adding debian:UTN_USERFirst_Hardware_Root_CA.pem
+Adding debian:DST_Root_CA_X3.pem
+Adding debian:GeoTrust_Universal_CA.pem
+Adding debian:Juur-SK.pem
+Adding debian:E-Tugra_Certification_Authority.pem
+Adding debian:DST_ACES_CA_X6.pem
+Adding debian:Starfield_Services_Root_Certificate_Authority_-_G2.pem
+Adding debian:ComSign_Secured_CA.pem
+Adding debian:VeriSign_Class_3_Public_Primary_Certification_Authority_-_G5.pem
+Adding debian:AddTrust_Qualified_Certificates_Root.pem
+Adding debian:AffirmTrust_Commercial.pem
+Adding debian:StartCom_Certification_Authority.pem
+Adding debian:ComSign_CA.pem
+Adding debian:DigiCert_Trusted_Root_G4.pem
+Adding debian:GeoTrust_Primary_Certification_Authority_-_G3.pem
+Adding debian:GeoTrust_Primary_Certification_Authority.pem
+Adding debian:UTN_DATACorp_SGC_Root_CA.pem
+Adding debian:AffirmTrust_Networking.pem
+Adding debian:Izenpe.com.pem
+Adding debian:AddTrust_Public_Services_Root.pem
+Adding debian:EE_Certification_Centre_Root_CA.pem
+Adding debian:America_Online_Root_Certification_Authority_2.pem
+Adding debian:AC_Raíz_Certicámara_S.A..pem
+Adding debian:Equifax_Secure_Global_eBusiness_CA.pem
+Adding debian:SG_TRUST_SERVICES_RACINE.pem
+Adding debian:GlobalSign_Root_CA.pem
+Adding debian:Verisign_Class_1_Public_Primary_Certification_Authority.pem
+Adding debian:CA_Disig_Root_R2.pem
+Adding debian:Go_Daddy_Root_Certificate_Authority_-_G2.pem
+Adding debian:QuoVadis_Root_CA_1_G3.pem
+Adding debian:VeriSign_Class_3_Public_Primary_Certification_Authority_-_G4.pem
+Adding debian:TURKTRUST_Certificate_Services_Provider_Root_1.pem
+Adding debian:thawte_Primary_Root_CA_-_G3.pem
+Adding debian:Comodo_Secure_Services_root.pem
+Adding debian:DigiCert_Global_Root_G3.pem
+Adding debian:Verisign_Class_3_Public_Primary_Certification_Authority_-_G3.pem
+Adding debian:WoSign_China.pem
+Adding debian:StartCom_Certification_Authority_2.pem
+Adding debian:Starfield_Class_2_CA.pem
+Adding debian:GTE_CyberTrust_Global_Root.pem
+Adding debian:CA_Disig.pem
+Adding debian:AddTrust_External_Root.pem
+Adding debian:Atos_TrustedRoot_2011.pem
+Adding debian:COMODO_Certification_Authority.pem
+Adding debian:Global_Chambersign_Root_-_2008.pem
+Adding debian:OISTE_WISeKey_Global_Root_GA_CA.pem
+Adding debian:TWCA_Root_Certification_Authority.pem
+Adding debian:Comodo_Trusted_Services_root.pem
+Adding debian:AffirmTrust_Premium.pem
+Adding debian:Certum_Root_CA.pem
+Adding debian:EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.pem
+Adding debian:Equifax_Secure_CA.pem
+Adding debian:TC_TrustCenter_Class_2_CA_II.pem
+Adding debian:Microsec_e-Szigno_Root_CA_2009.pem
+Adding debian:GeoTrust_Global_CA_2.pem
+Adding debian:DigiCert_High_Assurance_EV_Root_CA.pem
+Adding debian:Buypass_Class_3_Root_CA.pem
+Adding debian:PSCProcert.pem
+Adding debian:Camerfirma_Global_Chambersign_Root.pem
+Adding debian:thawte_Primary_Root_CA_-_G2.pem
+Adding debian:NetLock_Notary_=Class_A=_Root.pem
+Adding debian:ePKI_Root_Certification_Authority.pem
+Adding debian:America_Online_Root_Certification_Authority_1.pem
+Adding debian:NetLock_Express_=Class_C=_Root.pem
+Adding debian:Certinomis_-_Autorité_Racine.pem
+Adding debian:D-TRUST_Root_Class_3_CA_2_2009.pem
+Adding debian:Thawte_Premium_Server_CA.pem
+Adding debian:Trustis_FPS_Root_CA.pem
+Adding debian:Staat_der_Nederlanden_Root_CA.pem
+Adding debian:CNNIC_ROOT.pem
+Adding debian:T-TeleSec_GlobalRoot_Class_3.pem
+Adding debian:QuoVadis_Root_CA_2.pem
+done.
+Processing triggers for libc-bin ...
+ldconfig deferred processing now taking place
+root@webserver100:~# java -version
+java version "1.6.0_36"
+OpenJDK Runtime Environment (IcedTea6 1.13.8) (6b36-1.13.8-0ubuntu1~12.04)
+OpenJDK Client VM (build 23.25-b01, mixed mode, sharing)
+root@webserver100:~# 
+
+
+
+
  
