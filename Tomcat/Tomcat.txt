@@ -1,1 +1,57 @@
 ##### TOMCAT DOCUMENTATION ####
+
+
+$CATALINA_HOME. This represents the root of your Tomcat installation.
+
+Tomcat may be configured for multiple instances by defining $CATALINA_BASE for each instance.
+If muliple intances are not configured, $CATALINA_BASE is the same as $CATALINA_HOME.
+
+These are some of the key tomcat directories:
+
+* /bin - Startup, shutdown, and other scripts.
+
+* /conf - Configuration files and related DTDs. The most important file in here is server.xml. It is the main configuration file for the container.
+
+* /logs - Log files are here by default.
+
+* /webapps - This is where your webapps go.
+
+
+- - - TOMCAT SETUP - - -
+
+Tomcat can be run as a daemon using the jsvc tool from the commons-daemon project. Source tarballs for jsvc are included with the Tomcat binaries, and need to be compiled. 
+Building jsvc requires a C ANSI compiler (such as GCC), GNU autoconf, and a JDK.
+
+Before running the script, the JAVA_HOME environment variable should be set to the base path of the JDK. Alternatively, when calling the ./configure script, the path of the JDK may be specified using the --with-java parameter, such as ./configure --with-java=/usr/java.
+
+Using the following commands should result in a compiled jsvc binary, located in the $CATALINA_HOME/bin folder. This assumes that GNU TAR is used, and the CATALINA_HOME is an environment variable pointing to the base path of the Tomcat installation.
+
+Please note that you should use the GNU make (gmake) instead of the native BSD make on FreeBSD systems.
+
+____________________________________________
+| cd $CATALINA_HOME/bin
+| tar xvfz commons-daemon-native.tar.gz
+| cd commons-daemons-10.x-native-src/unix
+| ./Configure
+| make
+| cp jsvc ../..
+| cd ../..
+_____________________________________________
+
+Tomcat can then be run as a daemon using the following commands.
+_____________________________________________
+| CATALINA_BASE=$CATALINA_HOME
+| cd $CATALINA_HOME
+| ./bin/jsvc \
+|     -classpath $CATALINA_HOME/bin/bootstrap.jar \
+|     -outfile $CATALINA_BASE/logs/catalina.out \
+|     -errfile $CATALINA_BASE/logs/catalina.err \
+|     -Dcatalina.home=$CATALINA_HOME \
+|     -Dcatalina.base=$CATALINA_BASE \
+|     -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager \
+|     -Djava.util.logging.config.file=$CATALINA_BASE/conf/logging.properties \
+|     org.apache.catalina.startup.Bootstrap
+_____________________________________________
+
+
+ 
