@@ -362,4 +362,56 @@ root@webserver100:~#
 
 
 
- 
+
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+
+* Tomcat’s purpose is to provide standards-compliant support for Servlets and JSPs.
+
+* Tomcat is capable of serving dynamic and static content.
+
+THE TOMCAT Installation Directory
+
+
+- [-]Tomcat6.0
+	[ ]bin
+	[ ]conf
+	[ ]lib
+	[ ]logs
+	[ ]temp
+	[-]webapps
+		[+]docs
+		[+]examples
+		[+]host-manager
+		[-]manager
+			[ ]images
+			[ ]META-INF
+			[ ]WEB-INF
+		[+]ROOT
+	[+]work
+
+	
+
+bin Directory
+
+* The bin directory contains the scripts and code required to execute the server.
+* The startup.sh script is typically used for running Tomcat as a background process
+* Using the catalina.sh script allows you to have more fine-grained control over running Tomcat, such as running it as a foreground process, in debug mode.
+* The startup.sh script actually runs catalina.sh and simply instructs it to run in the background.
+
+
+conf directory
+
+* The conf directory contains the files that are necessary to configure and set parameters for Tomcat when it executes.
+
+* catalina.policy:
+	- Contains the security policy statements that are implemented by the Java SecurityManager. It replaces the java.policy file that came with your java installation.
+	- It is used to prevent rogue code or JSPs from executing damaging code that can affect the container with calls such as system.exit(0).
+	- It is used only when Tomcat is launched with the -security command-line parameter.
+* catalina.properties :
+	- Contains lists of Java packages that cannot be overridden by executable java code in servlets or JSPs, such as java.* or org.apache.tomcat.*, which could be a security risk
+
+* context.xml:
+	- The common context.xml that is used by all Web applications. By default, this file is used to set up where to access the web.xml file in Web applications.
+
+* logging.properties
