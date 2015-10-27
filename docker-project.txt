@@ -602,4 +602,6 @@ Abhi:docker abhinoc$
 Add this key to git hub account
 
 
+SetEnvIf Request_URI "^/robots\.txt$" dontlog
+
 

@@ -1,5 +1,6 @@
 ##### TOMCAT DOCUMENTATION ####
 
+TOMCAT  = Total Onboard Material Configuration Audit Tool.
 
 $CATALINA_HOME. This represents the root of your Tomcat installation.
 
@@ -414,4 +415,477 @@ conf directory
 * context.xml:
 	- The common context.xml that is used by all Web applications. By default, this file is used to set up where to access the web.xml file in Web applications.
 
-* logging.properties
+* logging.properties:
+	- The default logging configuration used by the JULI logger. By default,it uses a ConsoleHandler and FileHandler and sets up the logging level on a per-application or package basis.
+
+* server.xml:
+	- The main configuration file for Tomcat. This file is used by the digester to “build” the container on startup to your specifications.
+
+
+* tomcat-users.xml:
+	- Used for security to access the Tomcat administration applications. It is used with the default UserDatabase Realm as referenced in server.xml.
+
+* web.xml:
+	- The default web.xml file that is used by all Web applications. This web.xml sets up the JSPServlet to allow your applications to handle JSPs and a default servlet to handle static resources and HTML files.
+	- It also sets up the default session timeout and welcome files such as index.jsp, index.htm, index.html; and it sets up default MIME types for the most common extensions.
+
+
+Tomcat directories
+
+[+] lib Directory
+	- The lib directory contains all of the JARs that are used by the container. This includes the Tomcat JARs and the Servlet and JSP application programming interfaces (APIs).
+	- This is the place where you place JARs that are shared across Web applications or JDBC JARs for connection pools.
+
+[+] logs Directory
+	- This directory is used for the logging files that are produced while Tomcat is running.
+	- The JULI (Java Util Logging Implementation) logging produces multiple files in this directory, and each log file is create for each day.
+
+[+] temp Directory
+	- This is the temporary directory that Tomcat uses for scratch files and temporary use.
+
+[+] work Directory
+	- Directory for temporary and working files. This is heavily used during JSP compilation where the JSP is converted to a Java servlet and accessed through this directory.
+
+
+
+
+webapps Directory
+
+* The webs directory is where your Web applications ultimately will live.
+
+* If you are using an exploded WAR ( a WAR file that is decompressed), it needs to be placed in this directory.
+
+* Placing a WAR file in this directory also causes Tomcat to deploy the file.
+
+* When you deploy a full WAR through the Manager console application your WAR file is also placed into this directory.
+
+
+
+Contents of webapps Directory
+
+* ROOT:
+	- The welcome screen application. This is a special directory that designates the “/“ root of your Web container. When you move Tomcat to a production environment you would likely remove this directory if your application reuses the “/“ root context.
+
+* docs:	– Contains the Tomcat documentation. It is the same documentation you would find on the http://tomcat.apache.org/tomcat‐6.0‐doc Web site.* examples: 
+	- Contains the JSP and servlet examples.
+
+* host-manager:
+	- An application that allows you to manage the hosts that run in your application. Accessible from the /host-manager/html URL.
+
+* manager:
+	- An application that allows you to manage your application in Tomcat. From this application you can start, stop, reload, deploy, and underlay your applications. It is accessible from the /manager/html URL
+
+
+
+
+
+
+- - - - - - - T O M C A T - A R C H I T E C T U R E - - - - - - - - - - - - - - - - - - - - - - — - - - - - - 
+
+An overview of Tomcat Architecture.
+
+
+* Tomcat 6 consists of a nested hierarchy of components.
+
+* Some of these components are called top-level components because they exist at the top of the component hierarchy in a rigid relationship with one another.
+
+* Containers are components that can contain a collection other components. Components that can reside in containers, but cannot themselves contain other components, are called nested components.
+
+* The nested relationships of the components in this architecture are parent-child in nature.
+
+* This essentially means that each component may have one or more child components, and those children may have children of their own.
+
+* For example, as shown in the figure, you can have one or more Service objects as children. Each service object may contain a single Engine and one or more connector objects. Each Engine may have one or more Host objects as children, and so on. The Wrapper objects in the Context represent the holders for servlets and JSPs.
+
+- - - - - - - - - T H E - S E R V E R - - - - - - - - - 
+
+
+* The Server is Tomcat itself - an instance of the Web application server - and is a top-level component.
+
+* It owns a port that is used to shut down the server.
+
+* Only one instance of the Server can be created inside a given Java Virtual Machine (JVM).
+
+* Separate Servers configured to different ports can be set up on a single machine to separate applications so that they can be restarted independently.
+	- That is, if one Server running in a JVM were to crash, the other applications would be safe in another Server instance.
+
+
+- - - - - - - - - T H E - S E R V I C E - - - - - - - - - 
+
+* A Service groups a container (usually of type Engine) with a set of Connectors and is a top-level component.
+	- An Engine is a request-processing component that represents the Catalina Servlet engine. It examines the HTTP headers to determine the virtual host or context to which the requests should be passed.
+
+* Each Service represents a grouping of Connectors (components that manage the connection between the client and server) and a single container, which accepts request from the Connectors and processes the requests to present them to the appropriate Host.
+	- Each Service is named so that administrators  can easily identify log messages sent from each Service.
+
+
+- - - - - - - - - T H E - C O N N E C T O R S - - - - - - - - - 
+
+* Connectors connect the applications to clients. They represents the point at which request are received from client and are assigned a port on the server.
+
+* The default port for non-secure HTTP application is kept as 8080 to avoid interference with any Web server running on the standard HTTP port
+
+* The default Connector is Coyote, which implements HTTP 1.1; Tomcat also comes with an AJP connector.
+
+* In addition, the HTTP connector can be used with SSL as well.
+
+
+
+- - - - - - - - - T H E - E N G I N E - - - - - - - - - 
+
+* An Engine is a request-processing component that represents the Catalina Servlet engine.
+	- It examines the HTTP headers to determine the virtual host or context to which request should be passed.
+
+* When the standalone configuration is used, the Engine that is used is the default one.
+
+* When Tomcat is configured to provide Java servlet support for a Web server, the default class used to serve requests is overridden because the Web server has typically determined the correct destination of the request.
+
+
+- - - - - - - - - T H E - R E A L M - - - - - - - - - 
+
+
+* The Realm for an Engine manages user authentication and authorization.
+
+* During the configuration of an application, the administrators sets the roles that are allowed for each resource or group of resources, and the Realm is used to enforce this policy.
+
+* Realms can authenticate against text files, database tables, LDAP servers, and the Windows network identity of the user.
+
+* The Realm is an object that may be superseded by its children objects. This means a Realm may be attached to an Engine so that all of its children will inherit it. But if one of its children declares a Realm of its own at a Host or Context level, then that object will use its own Realm, instead of the parent.
+
+
+
+- - - - - - - - - T H E - V A L V E S - - - - - - - - - 
+
+
+* Valves are components that enable Tomcat to intercept a request and preprocess it.
+
+* They are similar to the filter mechanism of the Servlet specifications, but are specific to Tomcat.
+
+* Host, Contexts, and Engine may contain Valves.
+	- A valve is essentially a super-filter, very similar to a servlet filter, but it intercepts and invokes at a much higher level.
+
+* Valves are commonly used to enable single sign-on for all Hosts on a Server, as well as log request patterns, client IP addresses etc.,
+
+
+- - - - - - - - - T H E - L O G G E R S- - - - - - - - - 
+
+* Loggers report on the internal state of a component.
+
+* They can be set for components from top-level containers downward.
+
+* Logging behaviour is inherited, so a Logger set at the Engine level is assigned to ever chile object unless overridden by the child.
+
+* The configuration of Loggers at this level can be a convenient way to decide the default logging behaviour for the server.
+
+
+- - - - - - - - - T H E - H O S T - - - - - - - - - 
+
+* A Host mimics the popular Apache virtual host functionality. In Apache, this enables multiple servers to be used on the same machine, and to be differentiated by their IP address or by their host name.
+
+* In Tomcat, the virtual hosts are differentiated by a fully qualified hostname. Thus, the Web sites www.example.com and www.example.net can both reside in the same server, with requests for each routed to different groups of Web applications.
+
+* The Host is a child of the Engine. The Engine may contain one or more host objects that will represents a default host and zero or more virtual host objects.
+
+* The Engine has a setting to designate one of the host objects the default.
+
+
+- - - - - - - - - T H E - C O N T E X T - - - - - - - - - 
+
+
+* Context represents the Web application, also known as a Context.
+
+* Configuration of a Web application includes informing the Engine/Hosts of the location of the root folder of the application.
+
+* Dynamic reloading can also be enabled so that any classes that have been changed are reloaded into memory.
+	- However, this is resource-intensive, and is not recommended for deployment scenarios.
+
+
+
+- - - - - - - - - T H E - L O A D E R - - - - - - - - - 
+
+* The loader element represents the web application class loader that will be used to load java classes and resources for your web application. Such as class loader must follow the requirements of the Servlet Specification, and load classes from the following locations:
+	- From the /WEB-INF/classes directory inside your web application.
+	- From JAR files in the /WEB-INF/lib directory inside your web application.
+	- From resources made available by Catalina to all web applications globally.
+
+* A Loader element MAY be nested inside a Context component. if it is not included, a default Loader configuration will be created automatically, which is sufficient for most requirements.
+
+
+
+- - - - - - - - - T H E - L I F E - C Y C L E - L I S T E N E R - - - - - - - - - 
+ 
+* A Listener elements defines a component that performs action when specific events occur, usually Tomcat starting and Tomcat stopping.
+
+* Listeners may be nested inside a Server, Engine, Host or Context.
+	- Some Listeners are only intended to be nested inside specific elements.
+
+
+- - - - - - - - - T H E - M A N A G E R - - - - - - - - - 
+
+* The Manager element represents the session manager that will be used to create and maintain HTTP sessions as requested by associate web application.
+
+* A Manager element MAY be nested inside a Context component.
+
+* If it is not included, a default Manager configuration will be created automatically, which is sufficient for most requirements.
+
+
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+Configuration by Architecture.
+
+* So far, you have seen the different components of the Tomcat architecture and the parent-child relationships that they build upon each other.
+
+* The most important and critical configuration file in Tomcat is <TOMCAT_HOME>/cinf/server.xml.
+
+* When Tomcat starts, it uses a version of the Apache Commons Digester to read the server.xml file.
+
+* The Digester is a utility that reads XML files and creates Java objects from a set of rules. Thus, it reads server.xml and creates the Tomcat components and sets properties based upon what is in this file.
+
+
+
+-> Sample server.xml
+
+<Server port=“8005” shutdown=“SHUTDOWN”>
+<Listener className=“org.apache.catalina.core.AprLifecycleListener” SSLEngine=“on”>
+<Listener className=“org.apache.catalina.mbeans.ServerLifecycleListener”/>
+<Listener className=“org.apache.catalina.mbeans.GlobalResourcesLifecycleListener”/>
+<Service name=“Catalina”>
+<Connector port=”8080” protocol=“HTTP/1.1” maxThreads=“150” connectionTimeout=“20000” redirectPort=“8443” />
+<Connector port=“8009” protocol=“AJP/1.3” redirectPorts=“8443” />
+<Engine name=“Catalina” default=“localhost”>
+<Realm calssName=“org.apache.catalina.realm.UserDatabaseRealm” resourceName=“UserDatabase”/>
+<Host name=“localhost” appBase=“webapps” unpackWARs=“true” 
+
+
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+CONFIGURING TOMCAT
+
+Environment Variables
+
+* JAVA_HOME : This variable should point to the JDK installation directory
+
+* CATALINA_HOME : The value of this variable is the tomcat ‘installation’ directory.
+
+* CATALINA_BASE : This variable is needed only if you are running multiple server instance on the same machine using the same installation of Tomcat.
+
+
+
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+
+Tomcat 6 Configuration Essentials
+
+* server.xml -> Primary configuration file for the Tomcat server components. This includes the configuration of Service, Connector, Engine, Realm, Valves, Hosts and so on.
+
+* context.xml -> Default version of the pre-application configuration file for server components. Any components configured in this default file apply to all applications running on the server. Any individual can override the global configuration by defining its own context.xml file (placed in the META-INF directory of the application).
+
+* web.xml -> Default version of the standard Java EE deployment descriptor for Web applications. This is used by Tomcat 6 for all automatically deployed Web applications, or applications without their own specific deployment descriptor. If a Web application has its own deployment descriptor, its content will always override the configuration settings in this default descriptor.
+
+
+Location of files
+
+* Tomcat 6 looks for these configuration files in a specified configuration directory.
+
+* This configuration directory is specified via an environment variable.
+
+* Tomcat 6 first checks the CATALINA_BASE environment variable. If this environment variable is defined, Tomcat 6 looks in the specified directory for a conf subdirectory.
+
+* The configuration files are expected to reside in the con subdirectory.
+
+* If CATALINA_BASE is not specified, the CATALINA_HOME environment variable is used instead.
+
+* The $CATALINA_HOME environment variable is a required variable that specifies where Tomcat 6 is installed on your system.
+	- In fact, the $CATALINA_HOME variable is used to locate the executable (i.e., Catalina, Jasper, and Coyote) to run tomcat
+
+
+
+
+
+Default server.xml
+
+<Server port=”8005” shutdown=”SHUTDOWN”> 
+...<Service name=”Catalina”><Connector port=”8080” protocol=”HTTP/1.1” maxThreads=”150” connectionTimeout=”20000” redirectPort=”8443” /><Connector port=”8009” protocol=”AJP/1.3” redirectPort=”8443” /> 
+<Engine name=”Catalina” defaultHost=”localhost”><Realm className=”org.apache.catalina.realm.UserDatabaseRealm” resourceName=”UserDatabase”/><Host name=”localhost” appBase=”webapps” unpackWARs=”true” autoDeploy=”true” xmlValidation=”false” xmlNamespaceAware=”false”> </Host></Engine> 
+</Service> 
+</Server>
+
+
+
+
+
+- - - - - - - - - T H E - S E R V E R - E L E M E N T - - - - - - - - - 
+
+
+className -> The Java class of the server to use. This class is required to implement the org.apache.catalina.Server interface. By default, the Tomcat 6 code is org.apache.catalina.core.StandardServer. [Required NO]
+
+port -> The TCP port to listen to for the command specified by the shutdown attribute before hitting down gracefully. Tomcat will confirm that the connection is made from the same physical server machine. Together with a custom shutdown command string that you can specify this provides a measure of security against hacker attacks.
+
+shutdown -> The command text string that the server should monitor for, at the TCP port specified by the port attribute, before shutting down gracefully. [Required YES]
+
+
+
+- - - - - - - - - T H E - S E R V I C E - C O M P O N E N T - - - - - - - - - 
+
+* The next line in the file defines a Service component.
+
+* The main purpose of a Service component is to group a request-processing Engine with its configured set of protocol/concurrency handling Connectors.
+
+* The Service component is a top-level element, and is used to group together all the Connectors that may be used with the Catalina request-processing Engine.
+
+
+- - - - - - - - - T H E - C O N N E C T O R - C O M P O N E N T - - - - - - - - - 
+
+* Tomcat as an application server :
+	- In this configuration, a Web server frontend ( Apache, IIS, and so on) serves static content to end users, while all JSP and servlet requests are routed to the Tomcat server(s) for processing. In turn, Tomcat-hosted Web applications interface to backend J2EEcompliant services.
+
+* Tomcat is standalone mode :
+	- In this case, any static pages and graphic files from your Web application are served directly from the Tomcat 6 server. In this mode, an additional Web server frontend is not necessary because Tomcat is acting as both the Web Server and the JSP/Servlet container.
+	- Tomcat 6 uses its built-in HTTP Connector to process the incoming HTTP request, bypassing the need for an external Web server altogether. Tomcat-hosted Web applications can interface to backend J2EE services.
+
+2 common connectors
+
+* HTTP/1.1
+
+	- Connects browser or Web services to the Catalina Engine using HTTP 1.1 if supported by the client, and adaptively falls back to using HTTP 1.0 if necessary.
+
+	- This Connector can also be configured to support secured HTTPS/SSL connections
+
+* AJP/1.3
+	- Used for connecting between external Web servers (Apache included) and Tomcat 6 using the AJP 1.3 protocol.
+
+	- It uses the external Web server for static Web content, while Tomcat 6 will handle servlet and JSP processing. It can also use the Web server’s SSL support.
+
+
+- - - - - - - - - T H E - E N G I N E - C O M P O N E N T - - - - - - - - - 
+
+
+* The one and only Engine component associated with the Catalina service is defined next in the default server.xml file
+
+* An Engine is a container, essentially representing a running instance of the servlet processor. The name Catalina is given to this configured Engine instance.
+
+* An engine can process a request destined for multiple configured virtual hosts.
+	- The defaultHost attribute indicates the virtual host to which Tomcat will direct a request if the request is not specifically destined for one of the virtual hosts configured in the server.xml file.
+
+
+
+- - - - - - - - - T H E - H O S T - - - - - - - - - 
+
+* A Host component is a container; it can contain other nested components. The Host component represents a virtual host handled by a tomcat 6 server instance.
+
+* A single Tomcat 6 server can contain many virtual hosts.
+
+* Each virtual host can be considered as a distinct request processing destination.
+
+* A virtual host is configured as a <Host> element within the server.xml file.
+
+* Each <Host> element defined within the enclosing <Engine> element represents another virtual host that is handled by this Engine.
+
+
+- - - - - - - - - I M P - A T T R I B U T E S - O F — H O S T - - - - - - - - 
+
+
+* appBase
+	- Used to set the default application-deployment source directory.  Tomcat 6 will look in this directory for applications to be deployed.
+	- The path should be specified relative to the installation or pre-instance base directory for the Tomcat 6 server.
+	- Required:true
+
+* autoDeploy
+	- Setting this attribute to true means that Web applications will be automatically deployed or redeployed while Tomcat 6 is running.
+	- This includes any new applications placed into the directory specified by appBase(in WAR form or unarchived), any application whose web.xml deployment descriptor has been modified, and any application whose Context descriptor has been modified.
+	- The default value is true.
+	- Required:false
+
+* name
+	- The resolvable name of this virtual host.
+	- Required:Yes 
+
+* deployOnStartup
+	- When set to true, automatically deploys Web applications from this host during component start up.
+	- The default is true.
+	- Required:No
+
+* deployXML
+	- Used primarily in security sensitive installations to restrict the processing of context.xml embedded within a Web application (usually found in META-INF/context.xml of the WAR file).
+	- If this is set to false, the context configuration needs to placed under conf/<engine>/<host>/<app>.xml.
+	- The default value is true, allowing the processing of the META-INF/context.xml within any web applications deployed on the host.
+	- Required:no
+
+* unpackWARs
+	- Set this to false if you want Tomcat 6 to run Web applications without unarchiving the WAR files found at the directory specified by the appBase attribute.
+	- The default is true and Tomcat 6 will unpack these applications.
+	- The tradeoff here is typically performance (lower performance when WAR files are not unarchived) versus storage (no need to write to the appBase directory)
+
+* workdir
+	- Specifies a temporary working directory for servlets (and JSPs) that run within this host.
+	- These applications can get the temporary directory via a call to get the java.servlet.context.tempdir property.
+	- If this is not specified, a directory under CATALINA_HOME/work is used instead.
+
+
+
+
+
+Web Application Context definitions
+
+* In Tomcat 6, administrator-controlled application Context Descriptor XML files are placed in the CATALINA_HOME/conf/<engine name>/<host name> directory.
+
+* This is done to maximize the decoupling between server and application configuration, and to improve deployment security.
+
+* Web application-specific Context descriptors can be embedded in the WAR file, under META-INF/context.xml, and included with the Web application being deployed.
+
+* Administrators can, at their discretion, disable the parsing of these embedded context.xml files on a per-host basis via the deployXML attribute of the host.
+
+
+The default context.xml File
+
+* The context.xml in the $CATALINA_HOME/conf directory is the default Context describetor loaded with every single application running on the Tomcat instance.
+
+* Because of the global nature of this default Context, it should contain only configuration entries that you need to apply across all Web applications and across all virtual hosts.
+
+<Context>
+	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+</Context>
+
+* The web.xml specified in the <WatchedResource> nested component is watched by the Context’s background processing for changes.
+
+* Whenever this resource is changed, the application is redeployed by the Tomcat auto deployer.
+
+
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+Imp attributes of Context
+
+
+cacheMaxSize -> Sets the maximum size for the resource cache, in KB. The default is 10240. [Required:NO]
+
+cacheTTL -> Time between attempts to revalidate items in cache, specified in milliseconds. The default is 5000. [Required:NO]
+
+cachingAllowed -> Determines if static resource (config files, images, Web pages, and so on) cache should be turned on. The default is true [Required:NO]
+
+caseSensitive -> Determines if case sensitivity checks should be performed. Default is true. Leave this on, especially on an operating system with case-sensitive file systems such as windows.
+
+cookies -> Uses cookies to track session information from client access. Cookies are most universally accepted means to perform session management. Default is true. If you turn this off, application-level URL rewriting is required to maintain session information [Required:NO]
+
+crossContext -> Enables cross-Context access when ServletContext .getcontext() is called by a Web application. Default is false. You may need to turn this on for suites of Web applications that share information within the same virtual host. [Required:NO]
+
+docBase -> The document base path of the Web application running in the Context. This is often called the Context root. If the application is deployed as a WAR file, the document base is, by default, set to webapps/<name of war file>. This path can be set relative to the appBase of the enclosing Host container, or specified as an absolute path. [Required:NO] 
+
+override -> Default is false. This indicated if setting in the local context.xml should be allowed to override settings in the DefaultContext specified with the master server.xml. [Required:NO] 
+
+path -> Specifies the context path of the Web application. If you want the application to be the default application for the specified host, use a path of “”. In most cases, the default is sufficient. The default is to use the value specified in docBase, the WAR name, or the application Context file name.
+
+
+
+
+The Default Deployment Descriptor web.xml
+
+* According to the 
+prashanth.srinivas@tcs.com
+
+
+
+
+
+
+
+

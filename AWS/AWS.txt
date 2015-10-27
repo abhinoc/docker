@@ -299,3 +299,11 @@ What if I have an application already running?
 * Creates a starting-point template for you to edit
 	-> Add parameters
 	-> Abstract properties and flow properties
+
+
+_________
+
+
+
+EC2 Dashboard
+	Event
