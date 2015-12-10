@@ -605,5 +605,26 @@ Add this key to git hub account
 SetEnvIf Request_URI "^/robots\.txt$" dontlog
 
 
+You can use ssh to create a tunnel and expose your container in your host.
+
+You can do it in both ways, from container to host and from host to container. But you need a ssh tool like openssh in both (client in one and server in other).
+
+For example, in container, you can do
+
+$ yum install -y openssh openssh-server.x86_64
+service sshd restart
+Stopping sshd:                                             [FAILED]
+Generating SSH2 RSA host key:                              [  OK  ]
+Generating SSH1 RSA host key:                              [  OK  ]
+Generating SSH2 DSA host key:                              [  OK  ]
+Starting sshd:                                             [  OK  ]
+$ passwd # you need to set a root password..
+You can find the container IP from this line ( in containter
+
+$ ifconfig eth0 | grep "inet addr" | sed 's/^[^:]*:\([^ ]*\).*/\1/g'
+172.17.0.2
+Then in the host, you can just do:
+
+sudo ssh -NfL 80:0.0.0.0:80 root@172.17.0.2
 
 
