@@ -1,0 +1,12 @@
+# Add EPEL REPO
+sudo rpm -iUvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+
+# Best Practice to update all the packages.
+sudo yum -y update
+
+# Now Install Ansible
+sudo yum -y install ansible
+
+# Ansible Version
+ansible --version
+
