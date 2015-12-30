@@ -404,12 +404,341 @@ ruby_module_host	ansible_ruby_interpreter=/usr/bin/ruby.1.9.3
 
 
 
+________________________________________________________________________________________________________________________________________
 
-  
+SRC:- https://serversforhackers.com/an-ansible-tutorial
+
+INSTALLATION:-
+sudo apt-add-repository -y ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get install -y ansible
+
+My host inventory file
+vagrant@vagrant-ubuntu-trusty-64:~$ cat /etc/ansible/hosts
+[local]
+127.0.0.1
+[web]
+192.168.33.30
+192.168.33.40
+
+Basic: Running Commands
+
+Once we have an inventory configured, we can start running Tasks against the defined servers.
+
+Ansible will assume you have SSH access available to your servers, usually based on SSH-Key. Because Ansible uses SSH, the server it's on needs to be able to SSH into the inventory servers. It will attempt to connect as the current user it is being run as. If I'm running Ansible as user vagrant, it will attempt to connect as user vagrant on the other servers.
+
+If Ansible can directly SSH into the managed servers, we can run commands without too much fuss:
+
+
+Here I have not added the SSH key yet.
+
+vagrant@vagrant-ubuntu-trusty-64:~$ ansible all -m ping 
+192.168.33.30 | FAILED => SSH Error: ssh: connect to host 192.168.33.30 port 22: No route to host
+    while connecting to 192.168.33.30:22
+It is sometimes useful to re-run the command using -vvvv, which prints SSH debug output to help diagnose the issue.
+192.168.33.40 | FAILED => SSH Error: ssh: connect to host 192.168.33.40 port 22: No route to host
+    while connecting to 192.168.33.40:22
+It is sometimes useful to re-run the command using -vvvv, which prints SSH debug output to help diagnose the issue.
+127.0.0.1 | FAILED => SSH Error: Permission denied (publickey,password).
+    while connecting to 127.0.0.1:22
+It is sometimes useful to re-run the command using -vvvv, which prints SSH debug output to help diagnose the issue.
+vagrant@vagrant-ubuntu-trusty-64:~$ 
 
 
 
+If we need to define the user and perhaps some other settings in order to connect to our server, we can. When testing locally on Vagrant, I use the following:
 
+We can see the output we get from Ansible is some JSON which tells us if the Task made any changes and the result.
+
+vagrant@vagrant-ubuntu-trusty-64:~$ ansible all -m ping -s -k -u vagrant
+SSH password: 
+127.0.0.1 | success >> {
+    "changed": false,
+    "ping": "pong"
+}
+
+192.168.33.40 | success >> {
+    "changed": false,
+    "ping": "pong"
+}
+
+192.168.33.30 | success >> {
+    "changed": false,
+    "ping": "pong"
+}
+
+
+Let's cover these commands:
+
+all - Use all defined servers from the inventory file
+-m ping - Use the "ping" module, which simply runs the ping command and returns the results
+-s - Use "sudo" to run the commands
+-k - Ask for a password rather than use key-based authentication
+-u vagrant - Log into servers using user vagrant
+
+
+Modules
+
+Ansible uses "modules" to accomplish most of its Tasks. Modules can do things like install software, copy files, use templates and much more.
+
+Modules are the way to use Ansible, as they can use available context ("Facts") in order to determine what actions, if any need to be done to accomplish a Task.
+
+If we didn't have modules, we'd be left running arbitrary shell commands like this:
+
+vagrant@vagrant-ubuntu-trusty-64:~$ ansible all -s -m shell -a 'apt-get install nginx -y'
+127.0.0.1 | success | rc=0 >>
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following extra packages will be installed:
+  libxslt1.1 nginx-common nginx-core
+Suggested packages:
+  fcgiwrap nginx-doc
+The following NEW packages will be installed:
+  libxslt1.1 nginx nginx-common nginx-core
+0 upgraded, 4 newly installed, 0 to remove and 0 not upgraded.
+Need to get 493 kB of archives.
+After this operation, 1795 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu/ trusty/main libxslt1.1 amd64 1.1.28-2build1 [145 kB]
+Get:2 http://archive.ubuntu.com/ubuntu/ trusty-updates/main nginx-common all 1.4.6-1ubuntu3.3 [18.1 kB]
+Get:3 http://archive.ubuntu.com/ubuntu/ trusty-updates/main nginx-core amd64 1.4.6-1ubuntu3.3 [324 kB]
+Get:4 http://archive.ubuntu.com/ubuntu/ trusty-updates/main nginx all 1.4.6-1ubuntu3.3 [5452 B]
+Fetched 493 kB in 8s (57.4 kB/s)
+Selecting previously unselected package libxslt1.1:amd64.
+(Reading database ... 63636 files and directories currently installed.)
+Preparing to unpack .../libxslt1.1_1.1.28-2build1_amd64.deb ...
+Unpacking libxslt1.1:amd64 (1.1.28-2build1) ...
+Selecting previously unselected package nginx-common.
+Preparing to unpack .../nginx-common_1.4.6-1ubuntu3.3_all.deb ...
+Unpacking nginx-common (1.4.6-1ubuntu3.3) ...
+Selecting previously unselected package nginx-core.
+Preparing to unpack .../nginx-core_1.4.6-1ubuntu3.3_amd64.deb ...
+Unpacking nginx-core (1.4.6-1ubuntu3.3) ...
+Selecting previously unselected package nginx.
+Preparing to unpack .../nginx_1.4.6-1ubuntu3.3_all.deb ...
+Unpacking nginx (1.4.6-1ubuntu3.3) ...
+Processing triggers for ufw (0.34~rc-0ubuntu2) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+Processing triggers for man-db (2.6.7.1-1ubuntu1) ...
+Setting up libxslt1.1:amd64 (1.1.28-2build1) ...
+Setting up nginx-common (1.4.6-1ubuntu3.3) ...
+Processing triggers for ufw (0.34~rc-0ubuntu2) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+Setting up nginx-core (1.4.6-1ubuntu3.3) ...
+Setting up nginx (1.4.6-1ubuntu3.3) ...
+Processing triggers for libc-bin (2.19-0ubuntu6.6) ...
+
+192.168.33.40 | success | rc=0 >>
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following extra packages will be installed:
+  libxslt1.1 nginx-common nginx-core
+Suggested packages:
+  fcgiwrap nginx-doc
+The following NEW packages will be installed:
+  libxslt1.1 nginx nginx-common nginx-core
+0 upgraded, 4 newly installed, 0 to remove and 0 not upgraded.
+Need to get 493 kB of archives.
+After this operation, 1795 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu/ trusty/main libxslt1.1 amd64 1.1.28-2build1 [145 kB]
+Get:2 http://archive.ubuntu.com/ubuntu/ trusty-updates/main nginx-common all 1.4.6-1ubuntu3.3 [18.1 kB]
+Get:3 http://archive.ubuntu.com/ubuntu/ trusty-updates/main nginx-core amd64 1.4.6-1ubuntu3.3 [324 kB]
+Get:4 http://archive.ubuntu.com/ubuntu/ trusty-updates/main nginx all 1.4.6-1ubuntu3.3 [5452 B]
+Fetched 493 kB in 7s (68.1 kB/s)
+Selecting previously unselected package libxslt1.1:amd64.
+(Reading database ... 62972 files and directories currently installed.)
+Preparing to unpack .../libxslt1.1_1.1.28-2build1_amd64.deb ...
+Unpacking libxslt1.1:amd64 (1.1.28-2build1) ...
+Selecting previously unselected package nginx-common.
+Preparing to unpack .../nginx-common_1.4.6-1ubuntu3.3_all.deb ...
+Unpacking nginx-common (1.4.6-1ubuntu3.3) ...
+Selecting previously unselected package nginx-core.
+Preparing to unpack .../nginx-core_1.4.6-1ubuntu3.3_amd64.deb ...
+Unpacking nginx-core (1.4.6-1ubuntu3.3) ...
+Selecting previously unselected package nginx.
+Preparing to unpack .../nginx_1.4.6-1ubuntu3.3_all.deb ...
+Unpacking nginx (1.4.6-1ubuntu3.3) ...
+Processing triggers for ufw (0.34~rc-0ubuntu2) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+Processing triggers for man-db (2.6.7.1-1ubuntu1) ...
+Setting up libxslt1.1:amd64 (1.1.28-2build1) ...
+Setting up nginx-common (1.4.6-1ubuntu3.3) ...
+Processing triggers for ufw (0.34~rc-0ubuntu2) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+Setting up nginx-core (1.4.6-1ubuntu3.3) ...
+Setting up nginx (1.4.6-1ubuntu3.3) ...
+Processing triggers for libc-bin (2.19-0ubuntu6.6) ...
+
+192.168.33.30 | success | rc=0 >>
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following extra packages will be installed:
+  libxslt1.1 nginx-common nginx-core
+Suggested packages:
+  fcgiwrap nginx-doc
+The following NEW packages will be installed:
+  libxslt1.1 nginx nginx-common nginx-core
+0 upgraded, 4 newly installed, 0 to remove and 0 not upgraded.
+Need to get 493 kB of archives.
+After this operation, 1795 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu/ trusty/main libxslt1.1 amd64 1.1.28-2build1 [145 kB]
+Get:2 http://archive.ubuntu.com/ubuntu/ trusty-updates/main nginx-common all 1.4.6-1ubuntu3.3 [18.1 kB]
+Get:3 http://archive.ubuntu.com/ubuntu/ trusty-updates/main nginx-core amd64 1.4.6-1ubuntu3.3 [324 kB]
+Get:4 http://archive.ubuntu.com/ubuntu/ trusty-updates/main nginx all 1.4.6-1ubuntu3.3 [5452 B]
+Fetched 493 kB in 8s (57.1 kB/s)
+Selecting previously unselected package libxslt1.1:amd64.
+(Reading database ... 62972 files and directories currently installed.)
+Preparing to unpack .../libxslt1.1_1.1.28-2build1_amd64.deb ...
+Unpacking libxslt1.1:amd64 (1.1.28-2build1) ...
+Selecting previously unselected package nginx-common.
+Preparing to unpack .../nginx-common_1.4.6-1ubuntu3.3_all.deb ...
+Unpacking nginx-common (1.4.6-1ubuntu3.3) ...
+Selecting previously unselected package nginx-core.
+Preparing to unpack .../nginx-core_1.4.6-1ubuntu3.3_amd64.deb ...
+Unpacking nginx-core (1.4.6-1ubuntu3.3) ...
+Selecting previously unselected package nginx.
+Preparing to unpack .../nginx_1.4.6-1ubuntu3.3_all.deb ...
+Unpacking nginx (1.4.6-1ubuntu3.3) ...
+Processing triggers for ufw (0.34~rc-0ubuntu2) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+Processing triggers for man-db (2.6.7.1-1ubuntu1) ...
+Setting up libxslt1.1:amd64 (1.1.28-2build1) ...
+Setting up nginx-common (1.4.6-1ubuntu3.3) ...
+Processing triggers for ufw (0.34~rc-0ubuntu2) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+Setting up nginx-core (1.4.6-1ubuntu3.3) ...
+Setting up nginx (1.4.6-1ubuntu3.3) ...
+Processing triggers for libc-bin (2.19-0ubuntu6.6) ...
+
+vagrant@vagrant-ubuntu-trusty-64:~$ 
+
+
+Here, the sudo apt-get install nginx command will be run using the "shell" module. The -a flag is used to pass any arguments to the module. I use -s to run this command using sudo.
+
+However this isn't particularly powerful. While it's handy to be able to run these commands on all of our servers at once, we still only accomplish what any bash script might do.
+
+If we used a more appropriate module instead, we can run commands with an assurance of the result. Ansible modules ensure indempotence - we can run the same Tasks over and over without affecting the final result.
+
+For installing software on Debian/Ubuntu servers, the "apt" module will run the same command, but ensure idempotence.
+
+
+
+vagrant@vagrant-ubuntu-trusty-64:~$ ansible all -s -m apt -a 'pkg=nginx state=installed update_cache=true'
+127.0.0.1 | success >> {
+    "changed": false
+}
+
+192.168.33.40 | success >> {
+    "changed": false
+}
+
+192.168.33.30 | success >> {
+    "changed": false
+}
+
+
+This will use the apt module to update the repository cache and install Nginx (if not installed).
+
+The result of running the Task was "changed": false. This shows that there were no changes; I had already installed Nginx. I can run this command over and over without worrying about it affecting the desired result.
+
+Going over the command:
+
+all - Run on all defined hosts from the inventory file
+-s - Run using sudo
+-m apt - Use the apt module
+-a 'pkg=nginx state=installed update_cache=true' - Provide the arguments for the apt module, including the package name, our desired end state and whether to update the package repository cache or not
+We can run all of our needed Tasks (via modules) in this ad-hoc way, but let's make this more managable. We'll move this Task into a Playbook, which can run and coordinate multiple Tasks.
+
+
+Basic PlayBook:-
+
+Playbooks can run multiple Tasks and provide some more advanced functionality that we would miss out on using ad-hoc commands. 
+
+Create file nginx.yml:
+
+
+vagrant@vagrant-ubuntu-trusty-64:~$ cat nginx.yml
+---
+- hosts: local
+  tasks: 
+   - name: install nginx
+     apt: pkg=nginx state=installed update_cache=true
+...
+vagrant@vagrant-ubuntu-trusty-64:~$ 
+
+
+This Task does exactly the same as our ad-hoc command, however I chose to specify my "local" group of servers rather than "all". We can run it with the ansible-playbook command:
+
+
+vagrant@vagrant-ubuntu-trusty-64:~$ ansible-playbook -s nginx.yml 
+
+PLAY [local] ****************************************************************** 
+
+GATHERING FACTS *************************************************************** 
+ok: [127.0.0.1]
+
+TASK: [install nginx] ********************************************************* 
+changed: [127.0.0.1]
+
+PLAY RECAP ******************************************************************** 
+127.0.0.1                  : ok=2    changed=1    unreachable=0    failed=0   
+
+vagrant@vagrant-ubuntu-trusty-64:~$ 
+
+Use use -s to tell Ansible to use sudo again, and then pass the Playbook file.
+
+We get some useful feedback while this runs, including the Tasks Ansible runs and their result.
+
+
+Handlers:-
+
+A Handler is exactly the same as a Task (it can do anything a Task can), but it will run when called by another Task. You can think of it as part of an Event system; A Handler will take an action when called by an event it listens for.
+
+This is useful for "secondary" actions that might be required after running a Task, such as starting a new service after installation or reloading a service after a configuration change.
+
+
+vagrant@vagrant-ubuntu-trusty-64:~$ cat nginx.yml 
+---
+- hosts: local
+  tasks: 
+   - name: Install Nginx
+     apt: pkg=nginx state=installed update_cache=true
+     notify:
+      - start nginx
+   - name: Ensure Nginx is running
+     service: 
+      name: nginx
+      state: started
+  handlers:
+    - name: start nginx
+      service: name=nginx state=started
+...
+
+We can add a notify directive to the installation Task. This notifies any Handler named "Start Nginx" after the Task is run.
+
+Then we can create the Handler called "Start Nginx". This Handler is the Task called when "Start Nginx" is notified.
+
+This particular Handler uses the Service module, which can start, stop, restart, reload (and so on) system services. Here we simply tell Ansible that we want Nginx to be started.
+
+Note that Ansible has us define the state you wish the service to be in, rather than defining the change you want. Ansible will decide if a change is needed, we just tell it the desired result.
+
+vagrant@vagrant-ubuntu-trusty-64:~$ ansible-playbook -s nginx.yml 
+
+PLAY [local] ****************************************************************** 
+
+GATHERING FACTS *************************************************************** 
+ok: [127.0.0.1]
+
+TASK: [Install Nginx] ********************************************************* 
+ok: [127.0.0.1]
+
+TASK: [Ensure Nginx is running] *********************************************** 
+changed: [127.0.0.1]
+
+PLAY RECAP ******************************************************************** 
+127.0.0.1                  : ok=3    changed=1    unreachable=0    failed=0   
 
 
 
