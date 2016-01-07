@@ -307,3 +307,13 @@ _________
 
 EC2 Dashboard
 	Event
+
+
+_________
+
+
+AWS Commands
+
+aws ec2 ec2 describe-instances --query 'Reservations[*].Instances[*].[State.Name, InstanceId]'  --output table
+---------------------------------------------------------------------------------------------------------------
+
