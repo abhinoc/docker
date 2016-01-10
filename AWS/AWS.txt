@@ -317,3 +317,92 @@ AWS Commands
 aws ec2 ec2 describe-instances --query 'Reservations[*].Instances[*].[State.Name, InstanceId]'  --output table
 ---------------------------------------------------------------------------------------------------------------
 
+validating cloudformation template:-
+aws cloudformation validate-template --template-body  file://cloudformationtemplate.json 
+
+---------------------------------------------------------------------------------------------------------------
+Deploying the stack.
+
+
+vagrant@vagrant-ubuntu-trusty-64:~/CF$ aws cloudformation create-stack --stack-name test-stack-abhi01 --template-body file://cloudformationtemplate.json
+{
+    "StackId": "arn:aws:cloudformation:us-east-1:274712788788:stack/test-stack-abhi01/6cd9dda0-b5df-11e5-9d94-50d5cafe7636"
+}
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+[AUTOMATION]
+
+
+
+AWS::CloudFormation::Init
+
+AWS::EC2::Instance
+
+Example:-
+
+Run a script at launch time with User Data
+
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description" : "EC2 instance",
+    "Resources" : {
+    	"PuppetMasterInstance" : {
+    	"Type" : "AWS::EC2::Instance",
+    	"Metadata" : {},
+    	"Properties" : {
+    		"UserData" : {
+    			"Fn::Base64" : {
+    				"Fn::Join" : [
+    					"", [
+    						"#!/bin/bash\n",
+    						"/opt/aws/bin/cfn-init --region", "\n",
+    						"/usr/bin/puppet apply site.pp", "\n"
+    						] 
+    					]
+    				}
+
+    			}
+
+
+
+    		}
+    	}
+
+    }
+}
+
+
+cfn-create-stack
+
+$ cfn-create-stack puppetmaster —template-file=puppetmaster.json
+
+
+
+CloudFormation + Puppet + Deploy scripts = PaaS
+
+Autoscale = autosign
+
+
+
+User Data in CloudFormation
+
+{
+"UserData" : {
+	"Fn::Base64" : 
+		{
+			"Fn::Join" : 
+				[ "", [ "{\"role\": \"web\", ", "\"env\" : \"staging\" } " ] ]
+    	}	
+	}
+}
+
+
+
+www.gotoassist.com}://${here/id}:${here/zCOLhealthFunctionalPort}/${here/zCOLhealthFunctionalUrl}
+
+
+https://www.gotoassist.com:80/broker-status
+
+
