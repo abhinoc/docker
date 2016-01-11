@@ -71,3 +71,66 @@ content => This is first file created by puppet\n'
 2) Go to agent and run below command. Above manifest, if applied successfully, will create a file at /tmp/sharadfile with file content as "This is first file created by puppet".
 # puppet agent -onetime -no-daemonize -verbose
 
+_____________________________________________________________________________________________________________________________________________________________________________
+
+[Puppet Master Installation]
+
+#!/bin/bash
+echo "Performing apt-get update..."
+sleep 5;
+sudo apt-get update -y
+echo "Adding puppet labs repo"
+sleep 5;
+sudo wget http://apt.puppetlabs.com/puppetlabs-release-trusty.deb
+sudo dpkg -i puppetlabs-release-trusty.deb
+echo "Performing apt-get update again"
+sudo apt-get update -y
+echo "Install Puppet Master"
+sudo apt-get -y install puppetmaster
+
+#After installing master, we need to make some configuration changes in /etc/puppet/puppet.conf file. The file is in INI format. We will add following line in [master] block of configuration file,
+#certname = puppet.example.com
+
+#Create an small manifest file
+
+root@puppet:/home/ubuntu# cat /etc/puppet/manifests/site.pp
+file{'/tmp/puppetfile':
+ensure => present,
+content => "This is first file created by puppet\n"
+}
+
+[Puppet Agent Installation]
+
+
+#!/bin/bash
+echo "Performing apt-get"
+sudo apt-get update -y
+echo "Adding puppet labs repo"
+sleep 5;
+sudo wget http://apt.puppetlabs.com/puppetlabs-release-trusty.deb
+sudo dpkg -i puppetlabs-release-trusty.deb
+echo "Performing apt-get update again"
+sleep 5;
+sudo apt-get update -y
+echo "Install Puppet Agent"
+sleep 5;
+sudo apt-get -y install puppet
+
+#After agent is installed, it must be informed about its master. For this purpose, edit /etc/puppet/puppet.conf and add the following line under [main] section,
+#server = puppet.example.com
+#By default puppet agent is not configured to start, So, At puppet agent, also edit /etc/default/puppet and set start = yes.
+
+_____________________________________________________________________________________________________________________________________________________________________________
+
+root@puppet:/home/ubuntu#  puppet cert list -all
+  "puppetagent.example.com" (SHA256) AD:5E:09:16:4B:6C:F8:97:C1:5F:1E:A5:D6:71:C1:A0:13:44:23:37:06:CF:14:8B:63:15:43:0F:5F:2B:65:07
++ "puppet.example.com"      (SHA256) FE:37:16:08:8A:A0:A2:48:1B:6C:62:EA:5E:82:B0:41:17:04:D0:22:FB:E7:E1:0C:04:52:92:1D:7E:50:6D:CC (alt names: "DNS:puppet", "DNS:puppet.example.com")
+
+root@puppet:/home/ubuntu# puppet cert sign puppetagent.example.com
+Notice: Signed certificate request for puppetagent.example.com
+Notice: Removing file Puppet::SSL::CertificateRequest puppetagent.example.com at '/var/lib/puppet/ssl/ca/requests/puppetagent.example.com.pem'
+
+root@puppet:/home/ubuntu# puppet cert list -all
++ "puppet.example.com"      (SHA256) FE:37:16:08:8A:A0:A2:48:1B:6C:62:EA:5E:82:B0:41:17:04:D0:22:FB:E7:E1:0C:04:52:92:1D:7E:50:6D:CC (alt names: "DNS:puppet", "DNS:puppet.example.com")
++ "puppetagent.example.com" (SHA256) CF:70:7B:9A:35:FE:7F:E1:BF:74:17:EA:15:30:7A:F5:A2:0C:CF:65:93:C1:9E:B2:B0:07:09:A4:DF:80:89:DF
+
