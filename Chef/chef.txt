@@ -1,0 +1,47 @@
+src:- http://www.bogotobogo.com/DevOps/Chef/Chef_What_is_Chef.php
+
+Chef Server Installation on EC2 Ubuntu 14.04
+
+Three Componenets
+
+Chef is a configuration management tool written in Ruby and Erlang.
+It uses pure-Ruby, domain-specific language(DSL) for writting system configuration recipes
+
+
+
+The typical Chef environment is made up of 3 parts:
+-> The Chef server
+-> Workstation
+-> nodes
+
+The Chef server used to store configuration data and administer access rights.
+This will serve as a hub for our other machines.
+We will also install a workstation that will allow us to interact with our server and build our configuration policies.
+This is where we will do the work to manage our infrastructure environment.
+
+Chef's three main components:
+
+1] Server acts as a hub that is available to every node.
+Chef server is the brain of the operation.
+It stores information about our infrastructure.
+All chef client nodes will be registered with the server.
+The server holds all the cookbooks, recipes and policies.
+Clients communicate with the server to get the right configuration elements from the server and apply it to the nodes.
+
+2] Workstation is the development machine from which configuration elements like cookbooks, recipes and policies are defined.
+Workstation is where we will spend most of our time working with Chef.
+It's the same place we do our development or sysadmin work.
+From our workstation, we'll author Chef cookbooks, upload them to our Chef server, and more.
+Configuration are synchronized with  the chef-repo and uploaded to the server with knife command.
+
+3] Nodes contain chef-client which performs all the infrastructure automation.
+A node is a server in our infrastructure.
+Nodes are the computers that we manage using Chef.
+A node can be physical computer, virtual machine, instance in our public or private cloud environment, or even a switch or router in our network.
+
+please see Chef.png
+
+
+
+
+
