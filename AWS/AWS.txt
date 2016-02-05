@@ -400,9 +400,7 @@ User Data in CloudFormation
 
 
 
-www.gotoassist.com}://${here/id}:${here/zCOLhealthFunctionalPort}/${here/zCOLhealthFunctionalUrl}
 
 
-https://www.gotoassist.com:80/broker-status
 
 
