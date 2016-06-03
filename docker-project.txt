@@ -627,4 +627,8 @@ Then in the host, you can just do:
 
 sudo ssh -NfL 80:0.0.0.0:80 root@172.17.0.2
 
+___
 
+[Building Docker image from a conatiner]
+docker commit -m "Installed Node JS and NPM" -a "Abhishek Alevoor" 2acbd9a7f6c2 ubuntu-ab:v1
+2f7bbc3499d732b60d8ed0af2847588c2da2685da4894f96501967ce12243812
