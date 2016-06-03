@@ -1,3 +1,5 @@
+SRC:- https://www.digitalocean.com/community/tutorials/docker-explained-using-dockerfiles-to-automate-building-of-images
+
 Docker in Brief
 
 The docker project offers higher-level tools which work together, built on top of some Linux kernel features.
@@ -166,28 +168,159 @@ Example:
 WORKDIR ~/
 
 
+How to Use Dockerfiles
+
+Using the Dockerfiles is as simple as having the docker daemon run one. The output after executing the script will be the ID of the new docker image.
+
+Usage:
+
+# Build an image using the Dockerfile at current location
+# Example:  sudo docker build -t [name] .
+sudo docker buid -t my_mongodb .
+
+
+Dockerfile Example: Creating an image to install MongoDB
+
+In this final section for Dockerfiles, we will create a Dockerfile document and populate it step-by-step with the end result of having a Dockerfile, which can be used to create a docker image to run MongoDB containers.
+
+Note: After starting to edit the Dockerfile, all the content and agrguments from the section below are to be written (appended) inside of it successively, following our example and explantion from the Docker Syntax section. You can see what the end result will look like at the lates section of this walkthrough.
 
 
 
+Creating the Empty Dockerfile
+
+Using the text editor, let's start editing our Dockerfile.
+
+
+Defining Our File and Its Purpose
+
+It is always a good practice to let yourself and everybody figure out (when necessary) what this file is and what it is intended to do. For this, we will begin our Dockerfile with fancy comments (#) to describe it 
+
+############################################################
+# Dockerfile to build MongoDB container images
+# Based on Ubuntu
+############################################################
+
+
+Setting The Base Image to Use
+
+# Set the base image to Ubuntu
+FROM ubuntu
+
+# Definig the Maintainer (Author)
+# File Author / Maintainer
+MAINTAINER Example McAuthor
+
+
+# Updating The Application Repository List
+# Note:- This step is not necessary, give that we are not using the repository right afterwards. However, it can be considered good practice.
+
+# Update the repository sources list
+
+RUN apt-get update
+
+# Setting Arguments and Commands for Downloading MongoDB
+
+################## BEGIN INSTALLATION ######################
+# Install MongoDB Following the Instructions at MongoDB Docs
+# Ref: http://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/
+
+# Add the package verification key
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+
+# Add MongoDB to the repository sources list
+RUN echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | tee /etc/apt/sources.list.d/mongodb.list
+
+# Update the repository sources list once more
+RUN apt-get update
+
+# Install MongoDB package (.deb)
+RUN apt-get install -y mongodb-10gen
+
+# Create the default data directory
+RUN mkdir -p /data/db
+
+##################### INSTALLATION END #####################
+
+# Setting the Default port for MongoDB
+
+# Expose the default port
+
+EXPOSE 27017
+
+# Default port to execute the entrypoint (MongoDB)
+CMD ["--port 27017"]
+
+# Set default container command
+ENTRYPOINT usr/bin/mongod
+
+
+Save the Dockerfile
+
+This is what the final file should look like:
+
+############################################################
+# Dockerfile to build MongoDB container images
+# Based on Ubuntu
+############################################################
+
+# Set the base image to Ubuntu
+FROM ubuntu
+
+# File Author / Maintainer
+MAINTAINER Example McAuthor
+
+# Update the repository sources list
+RUN apt-get update
+
+################## BEGIN INSTALLATION ######################
+# Install MongoDB Following the Instructions at MongoDB Docs
+# Ref: http://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/
+
+# Add the package verification key
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+
+# Add MongoDB to the repository sources list
+RUN echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | tee /etc/apt/sources.list.d/mongodb.list
+
+# Update the repository sources list once more
+RUN apt-get update
+
+# Install MongoDB package (.deb)
+RUN apt-get install -y mongodb-10gen
+
+# Create the default data directory
+RUN mkdir -p /data/db
+
+##################### INSTALLATION END #####################
+
+# Expose the default port
+EXPOSE 27017
+
+# Default port to execute the entrypoint (MongoDB)
+CMD ["--port 27017"]
+
+# Set default container command
+ENTRYPOINT usr/bin/mongod
 
 
 
+Building our First Image
+
+Using the explanations from before, we are ready to create our first MongoDB image with docker!
+
+sudo docker build -t my_mongodb .
+
+Note: The -t [name] flag here is used to tag the image. To learn more about what else you can do during build, run sudo docker build --help.
 
 
+Running A Mongo DB Instance
 
+Using the image we have build, we can now proceed to the final step: creating a container running a MongoDB instance inside. using a name of our choice (if desired with -name [name])
 
+sudo docker run -name my_first_mdb_instance -i -t my_mongodb
 
+Note:- If a name is not set, we will need to deal with complex, alphanumeric IDs which can be obtained by listing all the conatiners using sudo docker ps -l.
 
+Note: To detach yourself for the conatiner, use th escape sequence CTRL+P followed by CTRL+Q
 
-
-
-
-
-
-
-
-
-
-
-
-￼
