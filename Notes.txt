@@ -1,0 +1,3 @@
+http://container-solutions.com/continuous-delivery-with-docker-on-mesos-in-less-than-a-minute/
+https://open.mesosphere.com/advanced-course/using-the-marathon-gui/
+http://fai-project.org
