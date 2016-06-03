@@ -1,0 +1,193 @@
+Docker in Brief
+
+The docker project offers higher-level tools which work together, built on top of some Linux kernel features.
+The goal is to help developers and system administrators port applications. with all of their dependencies conjointly - and get them running across systems and machines headache free.
+
+Docker achieves this by creating safe, LXC (i.e. Linux Containers) based environments for applications called "docker containers". These containers are created using docker images, which can be built either by executing commands manually or automatically through Dockerfiles.
+
+
+Dockerfiles
+
+Each Dockerfile is a script, composed of various commands (instructions) and arguments listed successively to automatically perform action on a base image in order to create (or form) a new one. They are used to organizing things and greatly help with deployments by simplifying the process start-to-finish.
+
+Dockerfiles begin with defining an image FROM which the build process starts. Followed by various other methods, commands and arguments (or conditions), in return, provide a new image which is to be used for creating docker containers.
+
+They can be used by providing a Dockerfile's content - in various ways - to the docker daemon to build an image 
+
+Dockerfile Syntax
+
+These structures are based on rules, clearly and explicity defined, and they are to be followed by the programmer to interface with whichever computer application (e.g. Interpreters, daemons etc.) uses or expects them. if a script(i.e. a file contaning series of tasks to be performed) is not correctly structured (i.e. wrong syntax), the computer program will not be able to parse it. Parsing roughly can be understood as going over an input with the end goal of understanding what is meant.
+
+Dockerfiles use simple, clean, and clear syntax which makes them strikingly easy to create and use. They are designed to be self explanatory, especially because they allow commenting just like a good and properly written application source-code.
+
+Dockerfile Syntax Example
+
+Dockerfile syntax consists of two kind of main line blocks: comments and commands + arguments.
+
+# Line blocks used for commenting
+command argument argument ..
+
+
+A Simple Example:
+
+# Print "Hello docker!"
+RUN echo "Hello docker!"
+
+
+Dockerfile Commands (Instructions)
+
+Currently there are about a dozen different set of commands which Dockerfiles can contain to have docker build an image
+
+Note:- As explained in the previous section (Docker Syntax), all these commands are to be listed (i.e. written) successively, inside a single plain text file (i.e. Dockerfile), in the order you would like them performed (i.e executed) by the docker daemon to build an image. However, some of these commands (eg. MAINTAINER) can be placed anywhere you seem fit (but always after FROM command), as they do not constitute of any execution but rather value of a definition (i.e. just some additional information).
+
+
+ADD 
+
+The ADD command gets two arguments: a source and a destination. It basically copies the files from the source on the host into the container's own filesystem at the set destination. If, however, the source is a URL (e.g. http://githug.com/user/file/), then the  contents of the URL are dowonloaded and placed at the destination.
+
+
+
+Example:
+
+# Usage: ADD [source directory or URL] [destination directory]
+
+
+CMD
+
+The command CMD, similarly to RUN, can be used for executing a specific command. However, unlike RUN it is not executed during build, but when a container is instantiated using the image being built. Therefore, it should be considered as an initial, default command that gets executed (i.e run) with the creation of containers based on the image.
+
+To clarify: an example for CMD would be running an application upon creation of a container which is already installed using RUN (e.g. RUN apt-get install ...) inside the image. This default application execution command that is set with CMD becomes the default and replaces any command which is passed during the creation.
+
+Example:
+
+# Usage 1: CMD application "argument", "argument", ..
+CMD "echo" "Hello docker!"
+
+
+ENTRYPOINT
+
+ENTRYPOINT argument sets the concrete default application that is used every time a container is created using the image.
+For example, if you have installed a specific application inside an image and you will use this image to only run that application, you can state it with ENTRYPOINT and whenever a container is created from that image, your application will be the target.
+
+If you couple ENTRYPOINT with CMD, you can remove "application" from CMD and just leave "arguments" which will be passed to the ENTRYPOINT.
+
+
+Example:
+
+# Usage: ENTRYPOINT application "argument", "argument", ..
+# Remember: arguments are optional. They can be provided by CMD or during the creation of a container.
+
+ENTRYPOINT echo
+
+# Usage example with CMD:
+# Arguments set with CMD can be overridden during *run*
+CMD "Hello docker!"
+
+ENTRYPOINT echo
+
+
+ENV
+
+The ENV command is used to set the enviornment variables (one or more). These variables consist of "key = value" pairs which can be accessed within the container by scripts and applications alike. This functionality of docker offers an enormous amount of flexibility of running programs.
+
+Example:
+
+# Usage: ENV key value
+ENV SERVER_WORKS 4
+
+EXPOSE
+
+The EXPOSE command is used to associate a specified port to enable networking between the running process inside the container and the outside world (i.e. the host).
+
+
+Example:
+
+# Usage: EXPOSE [port]
+EXPOSE 8080
+
+
+FROM
+
+FROM directive is probably the most crucial amongst all others for Dockerfiles. It defines the base image to use to start the build process. It can be any image, including the ones you have created previously. If a FROM image is not found on the host, docker will try to find it (and download) from the docker image index. It needs to be the first command declared inside a Dockerfile.
+
+Example:
+
+# Usage: FROM [image name]
+FROM ubuntu
+
+
+MAINTAINER
+
+One of the commands that can be set anywhere in the file - although it would be better if it was declared on top - is MAINTAINER. This non-executing command declares the author, hence setting the author field of the images. It should come nonetheless after FROM.
+
+Example:
+
+# Usage: MAINTAINER [name]
+MAINTAINER authors_name
+
+
+RUN:-
+
+The RUN command is the central executing directive for Dockerfiles. It takes a command as its argument and runs it to from the image. Unlike CMD, it actually is used to build the image (forming another layer on top of the previous one which is committed).
+
+Example:
+
+# Usage: RUN [command]
+RUN aptitude install -y riak
+
+
+USER
+
+The USER directive is used to set the UID (or username) which is to run the container based on the image being built.
+
+Example:
+
+#Usage: USER [UID]
+USER 751
+
+
+VOLUME
+
+The VOLUME command is used to enable access from your conatiner to a directory on the host machine (i.e. ounting it)
+
+
+Example:
+
+# Usage: VOLUME ["/dir_1", "/dir2" ..]
+VOLUME ["/my_files"]
+
+WORKDIR
+
+The WORKDIR directive is used to set where the command defined with CMD is to be executed.
+
+Example:
+# Usage: WORKDIR /path
+
+WORKDIR ~/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+￼
