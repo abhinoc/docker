@@ -466,7 +466,10 @@ Contents of webapps Directory
 * ROOT:
 	- The welcome screen application. This is a special directory that designates the “/“ root of your Web container. When you move Tomcat to a production environment you would likely remove this directory if your application reuses the “/“ root context.
 
-* docs:	– Contains the Tomcat documentation. It is the same documentation you would find on the http://tomcat.apache.org/tomcat‐6.0‐doc Web site.* examples: 
+* docs:
+	– Contains the Tomcat documentation. It is the same documentation you would find on the http://tomcat.apache.org/tomcat‐6.0‐doc Web site.
+
+* examples: 
 	- Contains the JSP and servlet examples.
 
 * host-manager:
@@ -705,8 +708,14 @@ Location of files
 Default server.xml
 
 <Server port=”8005” shutdown=”SHUTDOWN”> 
-...<Service name=”Catalina”><Connector port=”8080” protocol=”HTTP/1.1” maxThreads=”150” connectionTimeout=”20000” redirectPort=”8443” /><Connector port=”8009” protocol=”AJP/1.3” redirectPort=”8443” /> 
-<Engine name=”Catalina” defaultHost=”localhost”><Realm className=”org.apache.catalina.realm.UserDatabaseRealm” resourceName=”UserDatabase”/><Host name=”localhost” appBase=”webapps” unpackWARs=”true” autoDeploy=”true” xmlValidation=”false” xmlNamespaceAware=”false”> </Host></Engine> 
+...
+<Service name=”Catalina”>
+<Connector port=”8080” protocol=”HTTP/1.1” maxThreads=”150” connectionTimeout=”20000” redirectPort=”8443” />
+<Connector port=”8009” protocol=”AJP/1.3” redirectPort=”8443” /> 
+<Engine name=”Catalina” defaultHost=”localhost”>
+<Realm className=”org.apache.catalina.realm.UserDatabaseRealm” resourceName=”UserDatabase”/>
+<Host name=”localhost” appBase=”webapps” unpackWARs=”true” autoDeploy=”true” xmlValidation=”false” xmlNamespaceAware=”false”> </Host>
+</Engine> 
 </Service> 
 </Server>
 
@@ -879,8 +888,6 @@ path -> Specifies the context path of the Web application. If you want the appli
 
 The Default Deployment Descriptor web.xml
 
-* According to the 
-prashanth.srinivas@tcs.com
 
 
 
